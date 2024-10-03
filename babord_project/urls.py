@@ -17,7 +17,7 @@ Including another URLconf
 from django.urls import include, path
 from rest_framework import routers
 
-from testdb.views import *
+from api_rest_babord.views import *
 
 router = routers.DefaultRouter()
 router.register(r'groupes', GroupeViewSet)
