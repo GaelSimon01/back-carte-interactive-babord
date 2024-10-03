@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "testdb",
     'rest_framework',
+    "api_rest_babord",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

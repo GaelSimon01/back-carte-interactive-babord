@@ -20,6 +20,7 @@ from rest_framework import routers
 from testdb.views import *
 
 router = routers.DefaultRouter()
+router.register(r'groupes', GroupeViewSet)
 # router.register(r'users', UserViewSet)
 # router.register(r'groups', GroupViewSet)
 # router.register(r'teachers', TeacherViewSet)
