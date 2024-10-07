@@ -17,12 +17,16 @@ Including another URLconf
 from django.urls import include, path
 from rest_framework import routers
 
-from testdb.views import *
+from api_rest_babord.views import *
 
 router = routers.DefaultRouter()
-# router.register(r'users', UserViewSet)
-# router.register(r'groups', GroupViewSet)
-# router.register(r'teachers', TeacherViewSet)
+router.register(r'groupes', GroupeViewSet)
+router.register(r'utilisateurs', UtilisateurViewSet)
+router.register(r'lieux', LieuViewSet)
+router.register(r'albums', AlbumViewSet)
+router.register(r'concerts', ConcertViewSet)
+router.register(r'festivals', FestivalViewSet)
+router.register(r'infos', InfoViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
