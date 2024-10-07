@@ -9,7 +9,7 @@ class Groupe(models.Model):
     date_creation = models.DateField(default=date.today())
 
 class Utilisateur(models.Model):
-    nom_utilisateur = models.IntegerField()
+    nom_utilisateur = models.CharField()
     mdp = models.CharField()
     adresse_mail = models.CharField(max_length=80)
     admin = models.BooleanField(default=False)
