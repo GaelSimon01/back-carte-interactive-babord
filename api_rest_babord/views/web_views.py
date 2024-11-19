@@ -30,6 +30,7 @@ class ConcertListView(ListView):
         user = self.request.user
         return Concert.objects.filter(groupe__utilisateur__user=user)
     
+    
 
 class ConnectView(LoginView):
     template_name = 'api_rest_babord/login.html'

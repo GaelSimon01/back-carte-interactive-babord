@@ -22,7 +22,6 @@ from api_rest_babord.views import api_views
 router = routers.DefaultRouter()
 router.register(r'groupes', api_views.GroupeViewSet)
 router.register(r'utilisateurs', api_views.UtilisateurViewSet)
-router.register(r'lieux', api_views.LieuViewSet)
 router.register(r'albums', api_views.AlbumViewSet)
 router.register(r'concerts', api_views.ConcertViewSet)
 router.register(r'festivals', api_views.FestivalViewSet)

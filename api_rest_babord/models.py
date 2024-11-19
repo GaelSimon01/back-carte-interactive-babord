@@ -20,30 +20,23 @@ class UtilisateurMobile(models.Model):
     prenom = models.CharField()
     mail = models.EmailField()
     password = models.CharField()
-    
-
-class Lieu(models.Model):
-    latitude = models.CharField()
-    logitude = models.CharField()
-    libelle_lieu = models.CharField()
-    nom_image = models.CharField()
 
 class Album(models.Model):
     libelle = models.CharField()
     description = models.CharField()
     date_sortie = models.DateField(default=date.today())
-    lieux = models.ForeignKey(Lieu, on_delete=models.SET_NULL,blank=True,null=True)
+    lieux = models.CharField(blank=True,null=True)
     groupe = models.ForeignKey(Groupe, on_delete=models.CASCADE)
 
 class Concert(models.Model):
     intitule = models.CharField()
     date_debut = models.DateField(default=date.today())
-    lieu = models.ForeignKey(Lieu, on_delete=models.SET_NULL,blank=True,null=True)
+    lieu = models.CharField(blank=True,null=True)
     groupe = models.ForeignKey(Groupe, on_delete=models.SET_NULL,blank=True,null=True)
 
 class Festival(models.Model):
     date_debut = models.DateField(default=date.today())
-    lieux = models.ForeignKey(Lieu, on_delete=models.SET_NULL,blank=True,null=True)
+    lieux = models.CharField(blank=True,null=True)
     description = models.CharField()
     concerts = models.ManyToManyField(Concert)
 
