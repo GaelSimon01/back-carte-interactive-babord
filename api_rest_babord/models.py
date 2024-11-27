@@ -3,17 +3,16 @@ from datetime import date, datetime
 from django.contrib.auth.models import User
 
 class Groupe(models.Model):
-    libelle =models.CharField()
-    description = models.CharField()
-    nb_homme = models.IntegerField()
-    nb_femme = models.IntegerField()
-    date_creation = models.DateField(default=date.today())
+    libelle = models.CharField()
+    description = models.CharField(blank=True, null=True)
+    nb_homme = models.IntegerField(blank=True, null=True)
+    nb_femme = models.IntegerField(blank=True, null=True)
+    date_creation = models.DateField(blank=True, null=True)
 
 class Utilisateur(models.Model):
-    nom_utilisateur = models.CharField()
     admin = models.BooleanField(default=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
-    groupe = models.ManyToManyField(Groupe)
+    groupe = models.OneToOneField(Groupe, on_delete=models.CASCADE,null=True)
 
 class UtilisateurMobile(models.Model):
     nom = models.CharField()
@@ -32,7 +31,7 @@ class Concert(models.Model):
     intitule = models.CharField()
     date_debut = models.DateField(default=date.today())
     lieu = models.CharField(blank=True,null=True)
-    groupe = models.ForeignKey(Groupe, on_delete=models.SET_NULL,blank=True,null=True)
+    groupe = models.ForeignKey(Groupe, on_delete=models.SET_NULL,blank=True,null=True, related_name='concerts')
 
 class Festival(models.Model):
     date_debut = models.DateField(default=date.today())

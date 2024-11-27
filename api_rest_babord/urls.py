@@ -11,4 +11,8 @@ urlpatterns = [
     path('logout/', views.DisconnectView.as_view(), name='logout'),
 
     path('concerts/', views.ConcertListView.as_view(), name='concerts-list'),
+    path('concerts/<int:pk>/', views.ConcertDetailView.as_view(), name='concerts-detail'),
+    path('concerts/create/', views.consert_create, name='concerts-create'),
+    path('concerts/update/<int:pk>/', views.concert_update, name='concerts-update'),
+    path('concerts/delete/<int:pk>/', views.concert_delete, name='concerts-delete'),
 ]

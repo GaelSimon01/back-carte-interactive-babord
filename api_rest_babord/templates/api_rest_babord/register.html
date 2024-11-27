@@ -9,12 +9,18 @@
         <form method="POST" action="{% url 'register' %}" autocomplete='off'>
             {% csrf_token %}
             <div class="form-group mb-3">
+
                 <label>Identifiant</label>
                 <input class="form-control" type="text" name="username" placeholder="Utilisateur">
+                <label>Nom du groupe</label>
+                <input class="form-control" type="text" name="group_name" placeholder="Nom du groupe">
                 <label>Mail</label>
                 <input class="form-control" type="mail" name="mail" placeholder="Email">
                 <label>Mot de Passe</label>
                 <input class="form-control" type="password" name="password" placeholder="Mot de passe">
+                <label>Jeton d'accées</label>
+                <input class="form-control" type="text" name="token" placeholder="Jeton">
+                
             </div>
             <button type="submit" class="btn btn-success mt-2">S'inscrire</button>
         </form>

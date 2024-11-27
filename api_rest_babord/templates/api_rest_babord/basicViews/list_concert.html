@@ -39,11 +39,16 @@
                 <td>{{ concert.date_debut }}</td>
                 <td>{{ concert.lieu.intitule}}</td>
                 <td>
-        
+                    <a href="{% url 'concerts-detail' concert.id %}" class="btn btn-info">Détails</a>
+                    <a href="{% url 'concerts-update' concert.id %}" class="btn btn-warning">Modifier</a>
+                    <a href="{% url 'concerts-delete' concert.id %}" class="btn btn-danger">Supprimer</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'concerts-create' %}" class="btn btn-primary">Ajouter un concert</a>
+    </div>
 </div>
 {% endblock %}
