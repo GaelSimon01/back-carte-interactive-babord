@@ -24,24 +24,26 @@ class Album(models.Model):
     libelle = models.CharField()
     description = models.CharField()
     date_sortie = models.DateField(default=date.today())
-    lieux = models.CharField(blank=True,null=True)
+    lieu = models.CharField(blank=True,null=True)
     groupe = models.ForeignKey(Groupe, on_delete=models.CASCADE)
+    valider = models.BooleanField(default=False)
 
 class Concert(models.Model):
     intitule = models.CharField()
     date_debut = models.DateField(default=date.today())
     lieu = models.CharField(blank=True,null=True)
     groupe = models.ForeignKey(Groupe, on_delete=models.SET_NULL,blank=True,null=True, related_name='concerts')
+    valider = models.BooleanField(default=False)
 
 class Festival(models.Model):
     date_debut = models.DateField(default=date.today())
-    lieux = models.CharField(blank=True,null=True)
+    lieu = models.CharField(blank=True,null=True)
     description = models.CharField()
     concerts = models.ManyToManyField(Concert)
 
 type_info = [
     ("ACTU","Actualité"),
-    ("INFO_DIVER","Information diverse"),
+    ("INFO_DIVER","Information diverse")
 ]
 
 class Info(models.Model):

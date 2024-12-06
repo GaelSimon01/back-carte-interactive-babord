@@ -12,14 +12,20 @@ Babord project
 
 {% block contenu %}
 <div class="container mb-5">
-    <h2 class="mb-4">{{ concert.intitule }}</h2>
+    <h2 class="mb-4">
+        {{ concert.intitule }}
+        {% if concert.valider %}  
+            <span class="badge rounded-pill bg-success">Valider</span> 
+        {% else %} 
+            <span class="badge rounded-pill bg-secondary">En attente</span> 
+        {% endif%}
+    </h2>
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <h5 class="card-title">Détails sur le concert :</h5>
             <ul class="list-group list-group-flush mb-3">
                 <li class="list-group-item">Date de début : {{ concert.date_debut }}</li>
-                <li class="list-group-item">lieux : {{ concert. }}</li>
-                <li class="list-group-item">Date de création : {{ product.date_creation }}</li>
+                <li class="list-group-item">lieux : {{ concert.lieu }}</li>
             </ul>
         </div>
     </div>

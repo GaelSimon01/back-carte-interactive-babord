@@ -12,12 +12,25 @@
 
                 <label>Identifiant</label>
                 <input class="form-control" type="text" name="username" placeholder="Utilisateur">
+                {% if error.username %}
+                    <div class="text-danger">Cet identifiant est déjà utilisé.</div>
+                {% endif %}
+                
                 <label>Nom du groupe</label>
                 <input class="form-control" type="text" name="group_name" placeholder="Nom du groupe">
+                {% if error.group_name %}
+                    <div class="text-danger">Ce nom de groupe est déjà utilisé.</div>
+                {% endif %}
+                
                 <label>Mail</label>
                 <input class="form-control" type="mail" name="mail" placeholder="Email">
+                {% if error.email %}
+                    <div class="text-danger">Cet email est déjà utilisé.</div>
+                {% endif %}
+
                 <label>Mot de Passe</label>
                 <input class="form-control" type="password" name="password" placeholder="Mot de passe">
+                
                 <label>Jeton d'accées</label>
                 <input class="form-control" type="text" name="token" placeholder="Jeton">
                 

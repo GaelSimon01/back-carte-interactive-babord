@@ -1,18 +1,47 @@
 {% extends 'api_rest_babord/base.html' %}
 
 {% block contenu %}
-<div class="jumbotron">
-    <h1> Bienvenus, {{ user.utilisateur.groupe.libelle }} </h1>
-    <p>
-        orem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tincidunt dolor felis, sit amet vestibulum diam eleifend et. Suspendisse venenatis dui ligula, nec elementum velit ultricies sit amet. Maecenas nulla purus, volutpat non ex quis, sagittis sagittis dui. Vestibulum eget hendrerit lorem. Proin congue lobortis arcu, ornare accumsan nulla cursus ut. Nullam eget facilisis turpis. Donec lectus arcu, aliquam id suscipit vel, lobortis ac elit. Sed dictum est ex, at faucibus risus consectetur quis.
-
-        Mauris pharetra orci sed lorem laoreet, vitae bibendum lorem bibendum. Sed leo leo, pretium at ante sed, mattis convallis augue. Donec ornare lectus at lacus iaculis, sed consectetur dolor finibus. Maecenas rutrum tortor et purus efficitur fermentum. Nulla vestibulum ipsum a tempor mollis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse vitae nisl risus. Etiam in urna dolor. Curabitur at semper ex. Quisque auctor dolor sit amet mauris venenatis sodales.
-        
-        Etiam sem ante, commodo quis augue nec, semper sollicitudin velit. In hac habitasse platea dictumst. Phasellus in urna feugiat, fringilla elit ac, finibus risus. Maecenas tortor purus, malesuada gravida arcu vel, bibendum vehicula sapien. Maecenas mattis volutpat aliquet. Quisque vestibulum justo eget pharetra dapibus. Donec dolor odio, finibus ut elit id, pellentesque tincidunt neque. Maecenas scelerisque libero tincidunt metus posuere interdum. Quisque imperdiet lorem gravida eros cursus, sit amet tempus mi vestibulum. Sed est metus, porta vitae porttitor eget, bibendum at nulla. Morbi nec suscipit nunc, quis blandit leo. Suspendisse at augue velit. Donec condimentum metus lectus, eu iaculis diam bibendum non.
-
-        Morbi aliquam consectetur urna non ornare. Etiam posuere nibh et sem elementum, vel congue tortor volutpat. Cras a iaculis dolor. Quisque odio leo, sollicitudin ut elementum non, gravida mattis odio. Ut consectetur sollicitudin turpis. Integer molestie mattis odio varius imperdiet. Vestibulum sit amet arcu nunc.
-
-        Etiam bibendum sed nunc eu ornare. Pellentesque a pretium purus, et pulvinar libero. In in suscipit ex. Vestibulum mollis odio a justo viverra lobortis. Cras dignissim felis quis ullamcorper consequat. Nullam convallis sollicitudin erat ac sodales. Sed pharetra blandit nulla, non condimentum urna euismod vel. Sed eu placerat nunc. Nullam sollicitudin lobortis urna id tempor. Proin et turpis pulvinar felis eleifend euismod quis vel erat. Aliquam id libero in sapien ultricies hendrerit.
-    </p>
+{% load static %}
+<div class="container-fluid">
+    <h1> Bienvenus sur votre page de gestion {{ user.utilisateur.groupe.libelle }}</h1>
+    <h3>
+        Vos concerts : 
+    </h3>
+    {% if concerts %}
+    <div id="concertCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            {% for concert in concerts %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="card mx-auto" style="width: 50%;">
+                    <div class="card-header">
+                        <h5 class="card-title text-center">
+                            {{ concert.intitule }}
+                            {% if concert.valider %}
+                            <span class="badge rounded-pill bg-success">Valider</span>
+                            {% else %}
+                            <span class="badge rounded-pill bg-secondary">En attente</span>
+                            {% endif %}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ concert.date_debut }}</p>
+                        <p class="card-text">{{ concert.lieu }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#concertCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#concertCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    {% else %}
+    <p>Vous n'avez pas encore de concert</p>
+    {% endif %}
 </div>
 {% endblock %}

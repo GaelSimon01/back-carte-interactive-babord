@@ -33,5 +33,5 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
-    path('babord/',include('api_rest_babord.urls')), 
+    path('babord/',include('api_rest_babord.urls')),
 ]
