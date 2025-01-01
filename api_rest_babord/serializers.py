@@ -1,37 +1,47 @@
-from django.contrib.auth.models import Group, User
+"""
+Ce fichier contient les classes de sérialisation des modèles de l'application api_rest_babord.
+"""
+
 from rest_framework import serializers
-from api_rest_babord.models import *
+from api_rest_babord.models import Groupe, Album, Concert, Festival, Info
 
 
 class GroupeSerializer(serializers.ModelSerializer):
+    """
+    Classe de sérialisation du modèle Groupe
+    """
     class Meta:
         model = Groupe
-        fields = ['libelle','description','nb_homme','nb_femme','date_creation']
-
-
-class UtilisateurSerializer(serializers.ModelSerializer):
-    groupe = GroupeSerializer(many=True)
-    
-    class Meta:
-        model = Utilisateur
-        fields = ['nom_utilisateur','admin','groupe','adresse_mail']
+        fields = ['id','libelle','description','nb_homme','nb_femme','date_creation']
 
 class AlbumSerializer(serializers.ModelSerializer):
+    """
+    Classe de sérialisation du modèle Album
+    """
     class Meta:
         model = Album
-        fields = ['libelle','description','date_sortie','lieux','groupe']
+        fields = ['id','libelle','description','date_sortie','lieu','groupe']
 
 class ConcertSerializer(serializers.ModelSerializer):
+    """
+    Classe de sérialisation du modèle Concert
+    """
     class Meta:
         model = Concert
-        fields = ['date_debut','lieux','groupe']
+        fields = ['id','intitule','date_debut','lieu','groupe']
 
 class FestivalSerializer(serializers.ModelSerializer):
+    """
+    Classe de sérialisation du modèle Festival
+    """
     class Meta:
         model = Festival
-        fields = ['date_debut','lieux','description','concerts']
+        fields = ['id','date_debut','lieu','description','concerts']
 
 class InfoSerializer(serializers.ModelSerializer):
+    """
+    Classe de sérialisation du modèle Info
+    """
     class Meta:
         model = Info
-        fields = ['titre','description','nom_image','type_info']
+        fields = ['id','titre','description','nom_image','type_info']
