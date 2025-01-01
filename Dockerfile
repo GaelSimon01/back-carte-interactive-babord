@@ -18,6 +18,3 @@ EXPOSE 8000
 
 # Commande pour migrer la base de données
 CMD ["python", "manage.py", "migrate"]
-
-# Execute the script to create the superuser
-CMD ["bash", "-c", "python manage.py migrate && python create_superuser.py && python manage.py runserver 0.0.0.0:8000"]

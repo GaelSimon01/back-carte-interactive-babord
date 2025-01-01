@@ -1,49 +1,50 @@
 from django.db import models
 from datetime import date, datetime
+from django.contrib.auth.models import User
 
 class Groupe(models.Model):
-    libelle =models.CharField()
-    description = models.CharField()
-    nb_homme = models.IntegerField()
-    nb_femme = models.IntegerField()
-    date_creation = models.DateField(default=date.today())
+    libelle = models.CharField()
+    description = models.CharField(blank=True, null=True)
+    nb_homme = models.IntegerField(blank=True, null=True)
+    nb_femme = models.IntegerField(blank=True, null=True)
+    date_creation = models.DateField(blank=True, null=True)
 
 class Utilisateur(models.Model):
-    nom_utilisateur = models.CharField()
-    mdp = models.CharField()
-    adresse_mail = models.CharField(max_length=80)
     admin = models.BooleanField(default=False)
-    groupe = models.ManyToManyField(Groupe)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
+    groupe = models.OneToOneField(Groupe, on_delete=models.CASCADE,null=True)
 
-class Lieu(models.Model):
-    latitude = models.CharField()
-    logitude = models.CharField()
-    libelle_lieu = models.CharField()
-    nom_image = models.CharField()
+class UtilisateurMobile(models.Model):
+    nom = models.CharField()
+    prenom = models.CharField()
+    mail = models.EmailField()
+    password = models.CharField()
 
 class Album(models.Model):
     libelle = models.CharField()
     description = models.CharField()
     date_sortie = models.DateField(default=date.today())
-    lieux = models.ForeignKey(Lieu, on_delete=models.SET_NULL,blank=True,null=True)
+    lieu = models.CharField(blank=True,null=True)
     groupe = models.ForeignKey(Groupe, on_delete=models.CASCADE)
+    valider = models.BooleanField(default=False)
 
 class Concert(models.Model):
+    intitule = models.CharField()
     date_debut = models.DateField(default=date.today())
-    lieux = models.ForeignKey(Lieu, on_delete=models.SET_NULL,blank=True,null=True)
-    groupe = models.ForeignKey(Groupe, on_delete=models.SET_NULL,blank=True,null=True)
-    groupe = models.ForeignKey(Groupe, on_delete=models.CASCADE)
+    lieu = models.CharField(blank=True,null=True)
+    groupe = models.ForeignKey(Groupe, on_delete=models.SET_NULL,blank=True,null=True, related_name='concerts')
+    valider = models.BooleanField(default=False)
 
 class Festival(models.Model):
     date_debut = models.DateField(default=date.today())
-    lieux = models.ForeignKey(Lieu, on_delete=models.SET_NULL,blank=True,null=True)
+    lieu = models.CharField(blank=True,null=True)
     description = models.CharField()
     concerts = models.ManyToManyField(Concert)
 
-type_info = {
-    "ACTU" : "Actualité",
-    "INFO_DIVER" : "Information diverse",
-}
+type_info = [
+    ("ACTU","Actualité"),
+    ("INFO_DIVER","Information diverse")
+]
 
 class Info(models.Model):
     titre = models.CharField()

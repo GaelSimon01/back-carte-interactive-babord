@@ -16,11 +16,6 @@ class UtilisateurSerializer(serializers.ModelSerializer):
         model = Utilisateur
         fields = ['nom_utilisateur','admin','groupe','adresse_mail']
 
-class LieuSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Lieu
-        fields = ['latitude','logitude','libelle_lieu','nom_image']
-
 class AlbumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Album

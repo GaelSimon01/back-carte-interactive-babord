@@ -22,13 +22,6 @@ class UtilisateurViewSet(viewsets.ModelViewSet):
     serializer_class = UtilisateurSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class LieuViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows teachers to be viewed or edited.
-    """
-    queryset = Lieu.objects.all()
-    serializer_class = LieuSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 class AlbumViewSet(viewsets.ModelViewSet):
     """
