@@ -1,57 +1,60 @@
-from django.contrib.auth.models import Group, User
-from rest_framework import permissions, viewsets
-from rest_framework import filters
+"""
+Ce fichier contient les classes de vue de l'application api_rest_babord.
+"""
+
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
 
 
-from api_rest_babord.serializers import *
-from api_rest_babord.models import *
 
-class GroupeViewSet(viewsets.ModelViewSet):
+from api_rest_babord.serializers import GroupeSerializer, \
+    AlbumSerializer, ConcertSerializer, FestivalSerializer, InfoSerializer
+
+from api_rest_babord.models import Groupe, Album, Concert, Festival, Info
+
+class GroupeViewSet(ModelViewSet):
     """
-    API endpoint that allows teachers to be viewed or edited.
+    Classe de vue du modèle Groupe
     """
+
     queryset = Groupe.objects.all()
     serializer_class = GroupeSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-class UtilisateurViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows teachers to be viewed or edited.
-    """
-    queryset = Utilisateur.objects.all()
-    serializer_class = UtilisateurSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
-class AlbumViewSet(viewsets.ModelViewSet):
+
+class AlbumViewSet(ModelViewSet):
     """
-    API endpoint that allows teachers to be viewed or edited.
+    Classe de vue du modèle Album
     """
+
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
-class ConcertViewSet(viewsets.ModelViewSet):
+class ConcertViewSet(ModelViewSet):
     """
-    API endpoint that allows teachers to be viewed or edited.
+    Classe de vue du modèle Concert
     """
+
     queryset = Concert.objects.all()
     serializer_class = ConcertSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
-class FestivalViewSet(viewsets.ModelViewSet):
+class FestivalViewSet(ModelViewSet):
     """
-    API endpoint that allows teachers to be viewed or edited.
+    Classe de vue du modèle Festival
     """
+
     queryset = Festival.objects.all()
     serializer_class = FestivalSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
-class InfoViewSet(viewsets.ModelViewSet):
+class InfoViewSet(ModelViewSet):
     """
-    API endpoint that allows teachers to be viewed or edited.
+    Classe de vue du modèle Info
     """
+
     queryset = Info.objects.all()
     serializer_class = InfoSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
+    permission_classes = [IsAuthenticated]
