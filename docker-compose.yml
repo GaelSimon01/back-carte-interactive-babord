@@ -1,0 +1,46 @@
+# docker-compose.yml
+
+version: '3'
+
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: babord_bd
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: mdp
+    networks:
+      - django_network
+
+  web:
+    build: .
+    command: >
+      bash -c "python manage.py migrate &&
+               python create_superuser.py &&
+               python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/work
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - DB_NAME=babord_bd
+      - DB_USER=admin
+      - DB_PASSWORD=mdp
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@example.com
+      - DJANGO_SUPERUSER_PASSWORD=admin
+    depends_on:
+      - db
+    networks:
+      - django_network
+
+networks:
+  django_network:
+
+volumes:
+  postgres_data:
