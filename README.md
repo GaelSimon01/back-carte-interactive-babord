@@ -31,12 +31,12 @@ Pour créer la base de données, il faut exécuter la commande suivante :
 
 Pour lancer les test unitaire  : 
 ```bash
-./manage.py test api_test_babord.tests.unitaire
+./manage.py test api_rest_babord.tests.unitaire
 ```
 
 Pour lancer les test d'intégration  : 
 ```bash
-./manage.py test api_test_babord.tests.integration
+./manage.py test api_rest_babord.tests.integration
 ```
 
 ## commande pylint

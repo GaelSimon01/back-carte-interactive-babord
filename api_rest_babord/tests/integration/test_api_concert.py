@@ -1,6 +1,6 @@
 from django.test import TestCase, RequestFactory
 from api_rest_babord.models import Concert, Groupe
-from api_rest_babord.views import ConcertViewSet
+from api_rest_babord.views.api_views import ConcertViewSet
 from rest_framework.test import force_authenticate
 from django.contrib.auth.models import User
 from rest_framework import status
