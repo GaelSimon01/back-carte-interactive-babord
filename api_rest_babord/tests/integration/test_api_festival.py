@@ -33,7 +33,7 @@ class FestivalIntegrationTest(TestCase):
 
     def test_get_festival_list(self):
         request = self.factory.get('/api/festivals/')
-        force_authenticate(request, user=self.user)
+        request.permission = 'web_user'
         view = FestivalViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -48,7 +48,7 @@ class FestivalIntegrationTest(TestCase):
             'concerts': [self.concert.id]
         }
         request = self.factory.post('/api/festivals/', data, format='json')
-        force_authenticate(request, user=self.user)
+        request.permission = 'web_user'
         view = FestivalViewSet.as_view({'post': 'create'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)

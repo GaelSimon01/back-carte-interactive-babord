@@ -27,7 +27,7 @@ class ConcertIntegrationTest(TestCase):
 
     def test_get_concert_list(self):
         request = self.factory.get('/api/concerts/')
-        force_authenticate(request, user=self.user)
+        request.permission = 'web_user'
         view = ConcertViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -42,7 +42,7 @@ class ConcertIntegrationTest(TestCase):
             'groupe': self.groupe.id
         }
         request = self.factory.post('/api/concerts/', data, format='json')
-        force_authenticate(request, user=self.user)
+        request.permission = 'web_user'
         view = ConcertViewSet.as_view({'post': 'create'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)

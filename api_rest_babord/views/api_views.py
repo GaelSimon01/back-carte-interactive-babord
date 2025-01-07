@@ -8,9 +8,13 @@ from rest_framework.viewsets import ModelViewSet
 
 
 from api_rest_babord.serializers import GroupeSerializer, \
-    AlbumSerializer, ConcertSerializer, FestivalSerializer, InfoSerializer
+    AlbumSerializer, ConcertSerializer, FestivalSerializer, InfoSerializer \
+    , UtilisateurMobileSerializer
 
-from api_rest_babord.models import Groupe, Album, Concert, Festival, Info
+from api_rest_babord.models import Groupe, Album, Concert, Festival, Info, UtilisateurMobile
+
+from api_rest_babord.permissions import WebUserPermission, MobileUserPermission
+
 
 class GroupeViewSet(ModelViewSet):
     """
@@ -19,7 +23,16 @@ class GroupeViewSet(ModelViewSet):
 
     queryset = Groupe.objects.all()
     serializer_class = GroupeSerializer
-    permission_classes = [IsAuthenticated]
+    
+    def get_permissions(self):
+        """
+        Renvoie la liste des permissions en fonction de l'action
+        """
+        if  self.request.method in ['GET']:
+            permission_classes = [WebUserPermission,MobileUserPermission]
+        else:
+            permission_classes = [WebUserPermission]
+        return [permission() for permission in permission_classes]
 
 
 
@@ -30,7 +43,16 @@ class AlbumViewSet(ModelViewSet):
 
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
-    permission_classes = [IsAuthenticated]
+    
+    def get_permissions(self):
+        """
+        Renvoie la liste des permissions en fonction de l'action
+        """
+        if  self.request.method in ['GET']:
+            permission_classes = [WebUserPermission,MobileUserPermission]
+        else:
+            permission_classes = [WebUserPermission]
+        return [permission() for permission in permission_classes]
 
 class ConcertViewSet(ModelViewSet):
     """
@@ -39,7 +61,16 @@ class ConcertViewSet(ModelViewSet):
 
     queryset = Concert.objects.all()
     serializer_class = ConcertSerializer
-    permission_classes = [IsAuthenticated]
+    
+    def get_permissions(self):
+        """
+        Renvoie la liste des permissions en fonction de l'action
+        """
+        if  self.request.method in ['GET']:
+            permission_classes = [WebUserPermission,MobileUserPermission]
+        else:
+            permission_classes = [WebUserPermission]
+        return [permission() for permission in permission_classes]
 
 class FestivalViewSet(ModelViewSet):
     """
@@ -48,7 +79,16 @@ class FestivalViewSet(ModelViewSet):
 
     queryset = Festival.objects.all()
     serializer_class = FestivalSerializer
-    permission_classes = [IsAuthenticated]
+    
+    def get_permissions(self):
+        """
+        Renvoie la liste des permissions en fonction de l'action
+        """
+        if  self.request.method in ['GET']:
+            permission_classes = [WebUserPermission,MobileUserPermission]
+        else:
+            permission_classes = [WebUserPermission]
+        return [permission() for permission in permission_classes]
 
 class InfoViewSet(ModelViewSet):
     """
@@ -57,4 +97,22 @@ class InfoViewSet(ModelViewSet):
 
     queryset = Info.objects.all()
     serializer_class = InfoSerializer
-    permission_classes = [IsAuthenticated]
+    
+    def get_permissions(self):
+        """
+        Renvoie la liste des permissions en fonction de l'action
+        """
+        if  self.request.method in ['GET']:
+            permission_classes = [WebUserPermission,MobileUserPermission]
+        else:
+            permission_classes = [WebUserPermission]
+        return [permission() for permission in permission_classes]
+
+
+class UtilisateurMobileViewSet(ModelViewSet):
+    """
+    Classe de vue du modèle UtilisateurMobile
+    """
+
+    queryset = UtilisateurMobile.objects.all()
+    serializer_class = UtilisateurMobileSerializer

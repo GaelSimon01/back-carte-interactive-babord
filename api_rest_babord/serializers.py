@@ -1,10 +1,9 @@
 """
 Ce fichier contient les classes de sérialisation des modèles de l'application api_rest_babord.
 """
-
+import bcrypt
 from rest_framework import serializers
-from api_rest_babord.models import Groupe, Album, Concert, Festival, Info
-
+from api_rest_babord.models import Groupe, Album, Concert, Festival, Info, UtilisateurMobile
 
 class GroupeSerializer(serializers.ModelSerializer):
     """
@@ -13,6 +12,7 @@ class GroupeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Groupe
         fields = ['id','libelle','description','nb_homme','nb_femme','date_creation']
+        
 
 class AlbumSerializer(serializers.ModelSerializer):
     """
@@ -45,3 +45,56 @@ class InfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Info
         fields = ['id','titre','description','nom_image','type_info']
+
+class UtilisateurMobileSerializer(serializers.ModelSerializer):
+    """
+    Classe de sérialisation du modèle UtilisateurMobile
+    """
+    class Meta:
+        model = UtilisateurMobile
+        fields = ['id','nom','prenom','mail']
+
+    def create(self, validated_data):
+        """
+        Création d'un utilisateur mobile avec mot de passe haché
+        """
+
+        # Hacher le mot de passe
+        password = validated_data.pop('password')
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        validated_data['password'] = hashed_password.decode('utf-8')
+        
+        return UtilisateurMobile.objects.create(**validated_data)
+    
+    def delete(self, validated_data):
+        """
+        Suppression d'un utilisateur mobile
+        """
+        mail = validated_data.pop('mail')
+        password = validated_data.pop('password')
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        hash_password = hashed_password.decode('utf-8')
+        user = UtilisateurMobile.objects.get(mail=mail,password=hash_password)
+        user.delete()
+        return user
+    
+    def update(self, instance, validated_data):
+        """
+        Mise à jour d'un utilisateur mobile
+        """
+        password = validated_data.pop('password')
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        instance.password = hashed_password.decode('utf-8')
+        instance.save()
+        return instance
+    
+    def get(self, instance, validated_data):
+        """
+        Récupération d'un utilisateur mobile
+        """
+        mail = validated_data.pop('mail')
+        password = validated_data.pop('password')
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        hash_password = hashed_password.decode('utf-8')
+        user = UtilisateurMobile.objects.get(mail=mail,password=hash_password)
+        return user
