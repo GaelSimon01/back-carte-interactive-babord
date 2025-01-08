@@ -29,7 +29,7 @@ class GroupeViewSet(ModelViewSet):
         Renvoie la liste des permissions en fonction de l'action
         """
         if  self.request.method in ['GET']:
-            permission_classes = [WebUserPermission,MobileUserPermission]
+            permission_classes = [WebUserPermission or MobileUserPermission]
         else:
             permission_classes = [WebUserPermission]
         return [permission() for permission in permission_classes]
@@ -49,7 +49,7 @@ class AlbumViewSet(ModelViewSet):
         Renvoie la liste des permissions en fonction de l'action
         """
         if  self.request.method in ['GET']:
-            permission_classes = [WebUserPermission,MobileUserPermission]
+            permission_classes = [WebUserPermission or MobileUserPermission]
         else:
             permission_classes = [WebUserPermission]
         return [permission() for permission in permission_classes]
@@ -67,7 +67,7 @@ class ConcertViewSet(ModelViewSet):
         Renvoie la liste des permissions en fonction de l'action
         """
         if  self.request.method in ['GET']:
-            permission_classes = [WebUserPermission,MobileUserPermission]
+            permission_classes = [WebUserPermission or MobileUserPermission]
         else:
             permission_classes = [WebUserPermission]
         return [permission() for permission in permission_classes]
@@ -85,7 +85,7 @@ class FestivalViewSet(ModelViewSet):
         Renvoie la liste des permissions en fonction de l'action
         """
         if  self.request.method in ['GET']:
-            permission_classes = [WebUserPermission,MobileUserPermission]
+            permission_classes = [WebUserPermission or MobileUserPermission]
         else:
             permission_classes = [WebUserPermission]
         return [permission() for permission in permission_classes]
@@ -103,7 +103,7 @@ class InfoViewSet(ModelViewSet):
         Renvoie la liste des permissions en fonction de l'action
         """
         if  self.request.method in ['GET']:
-            permission_classes = [WebUserPermission,MobileUserPermission]
+            permission_classes = [WebUserPermission or MobileUserPermission]
         else:
             permission_classes = [WebUserPermission]
         return [permission() for permission in permission_classes]
