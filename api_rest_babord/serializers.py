@@ -11,7 +11,7 @@ class GroupeSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Groupe
-        fields = ['id','libelle','description','nb_homme','nb_femme','date_creation']
+        fields = ['id','libelle','description','nb_homme','nb_femme','producteur','lien_producteur','departement']
         
 
 class AlbumSerializer(serializers.ModelSerializer):
@@ -52,7 +52,7 @@ class UtilisateurMobileSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = UtilisateurMobile
-        fields = ['id','nom','prenom','mail']
+        fields = ['id','nom','prenom','mail','ville','code_postal','suivre_groupe']
 
     def create(self, validated_data):
         """

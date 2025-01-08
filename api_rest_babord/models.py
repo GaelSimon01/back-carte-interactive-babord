@@ -15,7 +15,9 @@ class Groupe(models.Model):
     description = models.CharField(blank=True, null=True)
     nb_homme = models.IntegerField(blank=True, null=True)
     nb_femme = models.IntegerField(blank=True, null=True)
-    date_creation = models.DateField(blank=True, null=True)
+    producteur = models.CharField(blank=True, null=True)
+    lien_producteur = models.CharField(blank=True, null=True)
+    departement = models.CharField(blank=True, null=True)
 
     def __str__(self):
         return self.libelle
@@ -29,6 +31,9 @@ class UtilisateurMobile(models.Model):
     prenom = models.CharField()
     mail = models.EmailField()
     password = models.CharField()
+    ville = models.CharField(blank=True, null=True)
+    code_postal = models.CharField(blank=True, null=True)
+    suivre_groupe = models.ManyToManyField(Groupe)
 
 class Album(models.Model):
     """

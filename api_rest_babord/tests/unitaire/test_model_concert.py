@@ -10,7 +10,9 @@ class ConcertModelTest(TestCase):
             description="Description du groupe de test",
             nb_homme=5,
             nb_femme=3,
-            date_creation="2023-01-01"
+            producteur="Test Producteur",
+            lien_producteur="http://test.com",
+            departement="00000",
         )
         self.concert = Concert.objects.create(
             intitule="Test Concert",

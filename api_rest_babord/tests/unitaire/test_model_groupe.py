@@ -9,7 +9,9 @@ class GroupeModelTest(TestCase):
             description="Description du groupe de test",
             nb_homme=5,
             nb_femme=3,
-            date_creation="2023-01-01"
+            producteur="Test Producteur",
+            lien_producteur="http://test.com",
+            departement="00000",
         )
 
     def test_groupe_creation(self):
@@ -17,7 +19,9 @@ class GroupeModelTest(TestCase):
         self.assertEqual(self.groupe.description, "Description du groupe de test")
         self.assertEqual(self.groupe.nb_homme, 5)
         self.assertEqual(self.groupe.nb_femme, 3)
-        self.assertEqual(str(self.groupe.date_creation), "2023-01-01")
+        self.assertEqual(self.groupe.producteur, "Test Producteur")
+        self.assertEqual(self.groupe.lien_producteur, "http://test.com")
+        self.assertEqual(self.groupe.departement, "00000")
 
     def test_groupe_str(self):
         self.assertEqual(str(self.groupe), self.groupe.libelle)

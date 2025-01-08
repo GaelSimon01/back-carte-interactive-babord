@@ -16,7 +16,9 @@ class ConcertIntegrationTest(TestCase):
             description="Description du groupe de test",
             nb_homme=5,
             nb_femme=3,
-            date_creation="2023-01-01"
+            producteur="Test Producteur",
+            lien_producteur="http://test.com",
+            departement="00000",
         )
         self.concert = Concert.objects.create(
             intitule="Test Concert",
@@ -26,8 +28,7 @@ class ConcertIntegrationTest(TestCase):
         )
 
     def test_get_concert_list(self):
-        request = self.factory.get('/api/concerts/')
-        request.headers.permission = 'web_user'
+        request = self.factory.get('/api/concerts/',headers={'permission': 'web_user'})
         view = ConcertViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -41,10 +42,30 @@ class ConcertIntegrationTest(TestCase):
             'lieu': 'New Lieu',
             'groupe': self.groupe.id
         }
-        request = self.factory.post('/api/concerts/', data, format='json')
-        request.headers.permission = 'web_user'
+        request = self.factory.post('/api/concerts/', data, format='json',headers={'permission': 'web_user'})
         view = ConcertViewSet.as_view({'post': 'create'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Concert.objects.count(), 2)
         self.assertEqual(Concert.objects.get(id=response.data['id']).intitule, 'New Concert')
+
+    def test_update_concert(self):
+        data = {
+            'intitule': 'Updated Concert',
+            'date_debut': '2023-02-01',
+            'lieu': 'New Lieu',
+            'groupe': self.groupe.id
+        }
+        request = self.factory.put('/api/concerts/' + str(self.concert.id) + '/', data, format='json',headers={'permission': 'web_user'},content_type='application/json')
+        view = ConcertViewSet.as_view({'put': 'update'})
+        response = view(request, pk=self.concert.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Concert.objects.get(id=self.concert.id).intitule, 'Updated Concert')
+        self.assertEqual(Concert.objects.get(id=self.concert.id).lieu, 'New Lieu')
+
+    def test_delete_concert(self):
+        request = self.factory.delete('/api/concerts/' + str(self.concert.id) + '/',headers={'permission': 'web_user'})
+        view = ConcertViewSet.as_view({'delete': 'destroy'})
+        response = view(request, pk=self.concert.id)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Concert.objects.count(), 0)
