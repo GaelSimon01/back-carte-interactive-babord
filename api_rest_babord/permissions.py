@@ -9,7 +9,8 @@ class WebUserPermission(BasePermission):
     """
 
     def has_permission(self, request, view):
-        return request.permission == "web_user" # temporaire pour les tests
+        print(request.headers)
+        return request.headers['permission'] == "web_user" # temporaire pour les tests
     
 
 class MobileUserPermission(BasePermission):

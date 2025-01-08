@@ -21,7 +21,7 @@ class GroupeIntegrationTest(TestCase):
 
     def test_get_groupe_list(self):
         request = self.factory.get('/api/groupes/')
-        request.permission = 'web_user'
+        request.headers.permission = 'web_user'
         view = GroupeViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

@@ -19,7 +19,7 @@ class InfoIntegrationTest(TestCase):
 
     def test_get_info_list(self):
         request = self.factory.get('/api/infos/')
-        request.permission = 'web_user'
+        request.headers.permission = 'web_user'
         view = InfoViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -34,7 +34,7 @@ class InfoIntegrationTest(TestCase):
             'type_info': 'ACTU'
         }
         request = self.factory.post('/api/infos/', data, format='json')
-        request.permission = 'web_user'
+        request.headers.permission = 'web_user'
         view = InfoViewSet.as_view({'post': 'create'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
