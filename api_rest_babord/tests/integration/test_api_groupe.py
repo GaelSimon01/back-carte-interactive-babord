@@ -1,7 +1,6 @@
 from django.test import TestCase, RequestFactory
 from api_rest_babord.models import Groupe
 from api_rest_babord.views.api_views import GroupeViewSet
-from rest_framework.test import force_authenticate
 from django.contrib.auth.models import User
 from rest_framework import status
 from datetime import date
