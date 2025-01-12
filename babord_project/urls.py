@@ -17,6 +17,11 @@ Including another URLconf
 from django.urls import include, path
 from rest_framework import routers
 
+from django.urls import re_path
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
 from api_rest_babord.views import api_views, auth_views
 
 router = routers.DefaultRouter()
@@ -27,11 +32,28 @@ router.register(r'festivals', api_views.FestivalViewSet)
 router.register(r'infos', api_views.InfoViewSet)
 router.register(r'Utilisateur', api_views.UtilisateurMobileViewSet)
 
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Babord API",
+        default_version='v1',
+        description="API pour l'application Babord",
+        contact=openapi.Contact(email="gael.simon.28@gmail.com"),
+        license=openapi.License(name="MIT License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('api/', include(router.urls)),
     path('api/api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/mobile-login/', auth_views.MobileUserLoginView.as_view(), name='mobile-login'),
+    path('swagger.yml/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger.json/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+   
 
 ]

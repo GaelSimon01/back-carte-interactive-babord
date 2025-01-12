@@ -13,7 +13,7 @@ from api_rest_babord.serializers import GroupeSerializer, \
 
 from api_rest_babord.models import Groupe, Album, Concert, Festival, Info, UtilisateurMobile
 
-from api_rest_babord.permissions import WebUserPermission, MobileUserPermission
+from api_rest_babord.permissions import WebUserPermission, MobileUserPermission, NewMobileUserPermission
 
 
 class GroupeViewSet(ModelViewSet):
@@ -116,3 +116,13 @@ class UtilisateurMobileViewSet(ModelViewSet):
 
     queryset = UtilisateurMobile.objects.all()
     serializer_class = UtilisateurMobileSerializer
+
+    def get_permissions(self):
+        """
+        Renvoie la liste des permissions en fonction de l'action
+        """
+        if self.action == 'create':
+            permission_classes = [NewMobileUserPermission]
+        else:
+            permission_classes = [MobileUserPermission]
+        return [permission() for permission in permission_classes]

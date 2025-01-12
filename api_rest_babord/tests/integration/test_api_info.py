@@ -7,7 +7,6 @@ class InfoIntegrationTest(TestCase):
 
     def setUp(self):
         self.factory = RequestFactory()
-        self.user = User.objects.create_user(username='testuser', password='12345')
         self.info = Info.objects.create(
             titre="Test Info",
             description="Description de l'info de test",

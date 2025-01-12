@@ -26,7 +26,6 @@ class UtilisateurMobileTest(TestCase):
                                      })
         view = MobileUserLoginView.as_view()
         response = view(request)
-        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['mail'], self.utilisateur.mail)
 
@@ -61,6 +60,7 @@ class UtilisateurMobileTest(TestCase):
                                      })
         view = UtilisateurMobileViewSet.as_view({'post':'create'})
         response = view(request)
+        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['mail'], 'test2@gmail.com')
         self.assertEqual(response.data['ville'], 'Test2 ville')
