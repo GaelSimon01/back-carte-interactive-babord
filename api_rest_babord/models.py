@@ -33,7 +33,7 @@ class UtilisateurMobile(models.Model):
     password = models.CharField()
     ville = models.CharField(blank=True, null=True)
     code_postal = models.CharField(blank=True, null=True)
-    suivre_groupe = models.ManyToManyField(Groupe)
+    suivre_groupe = models.ManyToManyField(Groupe,blank=True)
 
 class Album(models.Model):
     """

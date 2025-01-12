@@ -52,17 +52,23 @@ class UtilisateurMobileSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = UtilisateurMobile
-        fields = ['id','nom','prenom','mail','ville','code_postal','suivre_groupe']
+        fields = ['id','nom','prenom','mail','ville','password','code_postal','suivre_groupe']
 
     def create(self, validated_data):
         """
         Création d'un utilisateur mobile avec mot de passe haché
         """
-
         # Hacher le mot de passe
         password = validated_data.pop('password')
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         validated_data['password'] = hashed_password.decode('utf-8')
+        
+        # Créer l'utilisateur mobile et lui associer les groupes suivis
+        suivre_groupe = validated_data.pop('suivre_groupe')
+        utilisateur_mobile = UtilisateurMobile.objects.create(**validated_data)
+        utilisateur_mobile.suivre_groupe.set(suivre_groupe)
+        return utilisateur_mobile
+
         
         return UtilisateurMobile.objects.create(**validated_data)
     

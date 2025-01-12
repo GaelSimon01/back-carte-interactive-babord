@@ -1,5 +1,5 @@
 from django.test import TestCase, RequestFactory
-from api_rest_babord.models import UtilisateurMobile
+from api_rest_babord.models import UtilisateurMobile, Groupe
 from api_rest_babord.views.api_views import UtilisateurMobileViewSet
 from api_rest_babord.views.auth_views import MobileUserLoginView
 from rest_framework import status
@@ -17,6 +17,15 @@ class UtilisateurMobileTest(TestCase):
             mail='test@gmail.com',
             ville = "Test ville",
             code_postal = "12345",
+        )
+        self.groupe = Groupe.objects.create(
+            libelle="Test Groupe",
+            description="Description du groupe de test",
+            nb_homme=5,
+            nb_femme=3,
+            producteur="Test Producteur",
+            lien_producteur="http://test.com",
+            departement="00000",
         )
     
     def test_auth_mobile_user(self):
@@ -56,8 +65,10 @@ class UtilisateurMobileTest(TestCase):
                                      'mail':'test2@gmail.com',
                                      'ville':'Test2 ville',
                                      'code_postal':'54321',
-                                     'password':'abcdef'
-                                     })
+                                     'password':'abcdef',
+                                     'suivre_groupe': []
+                                     },
+                                     headers={'permission': 'create_mobile_user'})
         view = UtilisateurMobileViewSet.as_view({'post':'create'})
         response = view(request)
         print(response.data)
