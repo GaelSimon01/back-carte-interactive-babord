@@ -9,7 +9,11 @@ class WebUserPermission(BasePermission):
     """
 
     def has_permission(self, request, view):
-        return request.headers['permission'] == "web_user" # temporaire pour les tests
+        if("permission" in request.headers):
+            # Vérifie si l'utilisateur est un utilisateur web
+            return request.headers['permission'] == "web_user" # temporaire pour les tests
+        else:
+            return False
     
 class NewMobileUserPermission(BasePermission):
     """
@@ -17,8 +21,11 @@ class NewMobileUserPermission(BasePermission):
     """
 
     def has_permission(self, request, view):
+        if("permission" in request.headers):
         # Vérifie si l'utilisateur est un utilisateur mobile
-        return request.headers['permission'] == "create_mobile_user"
+            return request.headers['permission'] == "create_mobile_user"
+        else:
+            return False
     
 
 class MobileUserPermission(BasePermission):
@@ -27,5 +34,8 @@ class MobileUserPermission(BasePermission):
     """
 
     def has_permission(self, request, view):
+        if("permission" in request.headers):
         # Vérifie si l'utilisateur est un utilisateur mobile
-        return request.headers['permission'] == "mobile_user" and UtilisateurMobile.objects.filter(mail=request.user.email).exists()
+            return request.headers['permission'] == "mobile_user" and UtilisateurMobile.objects.filter(mail=request.user.email).exists()
+        else:
+            return False

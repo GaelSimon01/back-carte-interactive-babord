@@ -19,7 +19,7 @@ warnings.filterwarnings('ignore',module='rest_framework.W001')
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters', 
+    'bootstrap5',
     'drf_yasg',
 ]
 
@@ -143,6 +144,12 @@ USE_I18N = True
 
 USE_TZ = True
 
+STATICFILES_DIRS = (BASE_DIR / 'static/',)
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -154,7 +161,6 @@ STATIC_URL = '  static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILES_DIRS = (BASE_DIR / 'static/',)
 
 INTERNAL_IPS = [
 "127.0.0.1",
