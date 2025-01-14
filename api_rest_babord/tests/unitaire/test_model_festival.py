@@ -36,3 +36,14 @@ class FestivalModelTest(TestCase):
     def test_festival_str(self):
         expected_str = f"{self.festival.date_debut} {self.festival.lieu} ({str(len(self.festival.concerts.all()))})"
         self.assertEqual(str(self.festival), expected_str)
+
+    def test_festival_update(self):
+        self.festival.date_debut = "2023-02-01"
+        self.festival.lieu = "New Lieu"
+        self.festival.save()
+        self.assertEqual(str(self.festival.date_debut), "2023-02-01")
+        self.assertEqual(self.festival.lieu, "New Lieu")
+
+    def test_festival_delete(self):
+        self.festival.delete()
+        self.assertEqual(Festival.objects.count(), 0)

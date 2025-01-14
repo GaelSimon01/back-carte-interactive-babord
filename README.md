@@ -39,6 +39,10 @@ Pour lancer les test d'intégration  :
 ./manage.py test api_rest_babord.tests.integration
 ```
 
+Pour lancer le coverage 
+```bash
+coverage run --source='api_rest_babord' manage.py test
+```
 ## commande pylint
 
 Pour lancer le pylint : 

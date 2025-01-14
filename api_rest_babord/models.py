@@ -3,6 +3,8 @@
 """
 from datetime import date
 
+from django.utils.timezone import now 
+
 from django.db import models
 
 
@@ -35,6 +37,9 @@ class UtilisateurMobile(models.Model):
     code_postal = models.CharField(blank=True, null=True)
     suivre_groupe = models.ManyToManyField(Groupe,blank=True)
 
+    def __str__(self):
+        return self.nom + " " + self.prenom + " " + self.mail 
+
 class Album(models.Model):
     """
     Classe de définition du modèle Album
@@ -42,7 +47,7 @@ class Album(models.Model):
 
     libelle = models.CharField()
     description = models.CharField()
-    date_sortie = models.DateField(default=date.today())
+    date_sortie = models.DateField(default=now)
     lieu = models.CharField(blank=True,null=True)
     groupe = models.ForeignKey(Groupe, on_delete=models.CASCADE)
 
@@ -54,7 +59,7 @@ class Concert(models.Model):
     Classe de définition du modèle Concert
     """
     intitule = models.CharField()
-    date_debut = models.DateField(default=date.today())
+    date_debut = models.DateField(default=now)
     lieu = models.CharField(blank=True,null=True)
     groupe = models.ForeignKey(
         Groupe, on_delete=models.SET_NULL,blank=True,null=True, related_name='concerts'
@@ -67,7 +72,7 @@ class Festival(models.Model):
     """
     Classe de définition du modèle Festival
     """
-    date_debut = models.DateField(default=date.today())
+    date_debut = models.DateField(default=now)
     lieu = models.CharField(blank=True,null=True)
     description = models.CharField()
     concerts = models.ManyToManyField(Concert)

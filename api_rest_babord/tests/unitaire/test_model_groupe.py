@@ -26,4 +26,25 @@ class GroupeModelTest(TestCase):
     def test_groupe_str(self):
         self.assertEqual(str(self.groupe), self.groupe.libelle)
 
+    def test_groupe_update(self):
+        self.groupe.libelle = "Updated Groupe"
+        self.groupe.description = "Description du groupe mis à jour"
+        self.groupe.nb_homme = 4
+        self.groupe.nb_femme = 6
+        self.groupe.producteur = "New Producteur"
+        self.groupe.lien_producteur = "http://new.com"
+        self.groupe.departement = "22222"
+        self.groupe.save()
+        self.assertEqual(self.groupe.libelle, "Updated Groupe")
+        self.assertEqual(self.groupe.description, "Description du groupe mis à jour")
+        self.assertEqual(self.groupe.nb_homme, 4)
+        self.assertEqual(self.groupe.nb_femme, 6)
+        self.assertEqual(self.groupe.producteur, "New Producteur")
+        self.assertEqual(self.groupe.lien_producteur, "http://new.com")
+        self.assertEqual(self.groupe.departement, "22222")
+
+    def test_groupe_delete(self):
+        self.groupe.delete()
+        self.assertEqual(Groupe.objects.count(), 0)
+
     

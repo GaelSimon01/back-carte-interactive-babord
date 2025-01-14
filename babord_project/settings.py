@@ -13,9 +13,13 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 
 import os
+import warnings
+
+warnings.filterwarnings('ignore',module='rest_framework.W001')
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9&grfvr@^$9)4g^ohq48ewbfn9n)h8m7d&vzqdgj***i@237tn'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -150,17 +154,9 @@ STATIC_URL = '  static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-# ajout lors du tp 
-
-DATE_INPUT_FORMAT = ('%d/%m/%Y','%Y-%m-%d')
-
-STATICFILES_DIRS = (BASE_DIR / 'static/',)
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media/'
-
-LOGIN_URL = "/babord/login/"
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static/'),
+]
 
 INTERNAL_IPS = [
 "127.0.0.1",
@@ -174,7 +170,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
-    'PAGE_SIZE': 10,
+    'DEFAULT_PAGINATION_CLASS': None,
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 

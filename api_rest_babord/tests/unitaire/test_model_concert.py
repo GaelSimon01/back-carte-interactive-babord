@@ -29,3 +29,16 @@ class ConcertModelTest(TestCase):
 
     def test_concert_str(self):
         self.assertEqual(str(self.concert), self.concert.intitule)
+
+    def test_concert_update(self):
+        self.concert.intitule = "Updated Concert"
+        self.concert.date_debut = "2023-01-01"
+        self.concert.lieu = "New Lieu"
+        self.concert.save()
+        self.assertEqual(self.concert.intitule, "Updated Concert")
+        self.assertEqual(str(self.concert.date_debut), "2023-01-01")
+        self.assertEqual(self.concert.lieu, "New Lieu")
+
+    def test_concert_delete(self):
+        self.concert.delete()
+        self.assertEqual(Concert.objects.count(), 0)

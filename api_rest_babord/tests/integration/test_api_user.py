@@ -71,7 +71,6 @@ class UtilisateurMobileTest(TestCase):
                                      headers={'permission': 'create_mobile_user'})
         view = UtilisateurMobileViewSet.as_view({'post':'create'})
         response = view(request)
-        print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['mail'], 'test2@gmail.com')
         self.assertEqual(response.data['ville'], 'Test2 ville')

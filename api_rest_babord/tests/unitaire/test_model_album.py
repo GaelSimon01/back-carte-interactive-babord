@@ -31,3 +31,18 @@ class AlbumModelTest(TestCase):
 
     def test_album_str(self):
         self.assertEqual(str(self.album), self.album.libelle)
+
+    def test_album_update(self):
+        self.album.libelle = "Updated Album"
+        self.album.description = "Description de l'album mis à jour"
+        self.album.date_sortie = date.today()
+        self.album.lieu = "New Lieu"
+        self.album.save()
+        self.assertEqual(self.album.libelle, "Updated Album")
+        self.assertEqual(self.album.description, "Description de l'album mis à jour")
+        self.assertEqual(self.album.date_sortie, date.today())
+        self.assertEqual(self.album.lieu, "New Lieu")
+
+    def test_album_delete(self):
+        self.album.delete()
+        self.assertEqual(Album.objects.count(), 0)
