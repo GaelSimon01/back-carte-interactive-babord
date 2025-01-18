@@ -27,5 +27,6 @@ class MobileUserLoginView(APIView):
         else:
             return Response({"error": "Mot de passe incorrect", "type":"bad_password"}, status=status.HTTP_400_BAD_REQUEST)
         
+        
     def get_queryset(self):
         return []

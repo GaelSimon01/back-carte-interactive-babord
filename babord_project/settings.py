@@ -100,16 +100,16 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': "babord_bd",
-#         'USER': "gael",
-#         'PASSWORD': "gael",
-#         'HOST': "localhost",
-#         'PORT': "5432",
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': "babord_bd",
+        'USER': "gael",
+        'PASSWORD': "gael",
+        'HOST': "localhost",
+        'PORT': "5432",
+    }
+}
 
 
 
