@@ -21,6 +21,7 @@ services:
                python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/work
+      - static_volume:/babord_project/work/static
     ports:
       - "8000:8000"
     environment:
@@ -38,8 +39,21 @@ services:
     networks:
       - django_network
 
+  serv-nginx:
+    image: nginx:1.21
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - static_volume:/work/static
+    ports:
+      - "8001:80"
+    depends_on:
+      - web
+    networks:
+      - django_network
+
 networks:
   django_network:
 
 volumes:
   postgres_data:
+  static_volume:
