@@ -26,6 +26,9 @@ class Groupe(models.Model):
     lien_twitter = models.CharField(blank=True, null=True)
     departement = models.CharField(blank=True, null=True)
 
+    class Meta:
+        ordering = ['libelle']  
+
 
     def __str__(self):
         return self.libelle
@@ -59,6 +62,9 @@ class Album(models.Model):
         Groupe, on_delete=models.SET_NULL,blank=True,null=True, related_name='albums'
     )
 
+    class Meta:
+        ordering = ['libelle']
+
     def __str__(self):
         return self.libelle
 
@@ -73,6 +79,9 @@ class Concert(models.Model):
         Groupe, on_delete=models.SET_NULL,blank=True,null=True, related_name='concerts'
     )
 
+    class Meta:
+        ordering = ['intitule']
+
     def __str__(self):
         return self.intitule
 
@@ -84,6 +93,9 @@ class Festival(models.Model):
     lieu = models.CharField(blank=True,null=True)
     description = models.CharField()
     concerts = models.ManyToManyField(Concert)
+
+    class Meta:
+        ordering = ['date_debut']
 
     def __str__(self):
         return self.date_debut + " " + self.lieu + " (" + str(len(self.concerts.all())) +")"
@@ -102,6 +114,9 @@ class Info(models.Model):
     description = models.CharField()
     nom_image = models.CharField()
     type_info = models.CharField(choices=type_info)
+
+    class Meta:
+        ordering = ['titre']
 
     def __str__(self):
         return self.titre

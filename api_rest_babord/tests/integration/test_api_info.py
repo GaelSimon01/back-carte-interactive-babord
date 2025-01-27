@@ -19,8 +19,15 @@ class InfoIntegrationTest(TestCase):
         view = InfoViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['titre'], "Test Info")
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertEqual(response.data['results'][0]['titre'], "Test Info")
+
+    def test_get_info_detail(self):
+        request = self.factory.get('/api/infos/' + str(self.info.id) + '/',headers={'permission': 'web_user'})
+        view = InfoViewSet.as_view({'get': 'retrieve'})
+        response = view(request, pk=self.info.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['titre'], "Test Info")
 
     def test_create_info(self):
         data = {
@@ -62,12 +69,12 @@ class InfoIntegrationTest(TestCase):
         view = InfoViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
+        self.assertEqual(len(response.data['results']), 1)
 
     def test_get_info_filter_type_info(self):
         request = self.factory.get('/api/infos/', {'type_info': 'ACTU'},headers={'permission': 'web_user'})
         view = InfoViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['titre'], 'Test Info')
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertEqual(response.data['results'][0]['titre'], 'Test Info')

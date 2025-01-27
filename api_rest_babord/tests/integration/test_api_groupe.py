@@ -44,8 +44,8 @@ class GroupeIntegrationTest(TestCase):
         view = GroupeViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 3)
-        self.assertEqual(response.data[0]['libelle'], "Test Groupe")
+        self.assertEqual(len(response.data['results']), 3)
+        self.assertEqual(response.data['results'][0]['libelle'], "Test Groupe")
     
     def test_get_groupe_detail(self):
         request = self.factory.get('/api/groupes/' + str(self.groupe.id) + '/',headers={'permission': 'web_user'})
@@ -105,21 +105,21 @@ class GroupeIntegrationTest(TestCase):
         view = GroupeViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['libelle'], 'groupe1')
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertEqual(response.data['results'][0]['libelle'], 'groupe1')
 
     def test_get_groupe_filter_departement(self):
         request = self.factory.get('/api/groupes/', {'departement': '11111'},headers={'permission': 'web_user'})
         view = GroupeViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['departement'], '11111')
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertEqual(response.data['results'][0]['departement'], '11111')
 
     def test_get_groupe_filter_producteur(self):
         request = self.factory.get('/api/groupes/', {'producteur': 'Test Producteur 1'},headers={'permission': 'web_user'})
         view = GroupeViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['producteur'], 'Test Producteur 1')
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertEqual(response.data['results'][0]['producteur'], 'Test Producteur 1')

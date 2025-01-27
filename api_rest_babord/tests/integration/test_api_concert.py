@@ -43,8 +43,15 @@ class ConcertIntegrationTest(TestCase):
         view = ConcertViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 3)
-        self.assertEqual(response.data[0]['intitule'], "Test Concert")
+        self.assertEqual(len(response.data['results']), 3)
+        self.assertEqual(response.data['results'][0]['intitule'], "Test Concert")
+
+    def test_get_concert_detail(self):
+        request = self.factory.get('/api/concerts/' + str(self.concert.id) + '/',headers={'permission': 'web_user'})
+        view = ConcertViewSet.as_view({'get': 'retrieve'})
+        response = view(request, pk=self.concert.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['intitule'], "Test Concert")
 
     def test_create_concert(self):
         data = {
@@ -86,31 +93,31 @@ class ConcertIntegrationTest(TestCase):
         view = ConcertViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['intitule'], 'Test Concert')
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertEqual(response.data['results'][0]['intitule'], 'Test Concert')
     
     def test_get_concert_filter_groupe(self):
         request = self.factory.get('/api/concerts/', {'groupe__libelle': 'Test Groupe'},headers={'permission': 'web_user'})
         view = ConcertViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 3)
-        self.assertEqual(response.data[0]['intitule'], 'Test Concert')
+        self.assertEqual(len(response.data['results']), 3)
+        self.assertEqual(response.data['results'][0]['intitule'], 'Test Concert')
 
     def test_get_concert_filter_date_debut(self):
         request = self.factory.get('/api/concerts/', {'date_debut': '2023-01-01'},headers={'permission': 'web_user'})
         view = ConcertViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 3)
-        self.assertEqual(response.data[0]['intitule'], 'Test Concert')
+        self.assertEqual(len(response.data['results']), 3)
+        self.assertEqual(response.data['results'][0]['intitule'], 'Test Concert')
 
     def test_get_concert_filter_lieu(self):
         request = self.factory.get('/api/concerts/', {'lieu': 'Test Lieu'},headers={'permission': 'web_user'})
         view = ConcertViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['intitule'], 'Test Concert')
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertEqual(response.data['results'][0]['intitule'], 'Test Concert')
 
     

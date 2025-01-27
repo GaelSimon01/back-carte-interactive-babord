@@ -55,8 +55,15 @@ class AlbumIntegrationTest(TestCase):
         view = AlbumViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 3)
-        self.assertEqual(response.data[0]['libelle'], "Test Album")
+        self.assertEqual(len(response.data['results']), 3)
+        self.assertEqual(response.data['results'][0]['libelle'], "Test Album")
+
+    def test_get_album_detail(self):
+        request = self.factory.get(f'/api/albums/{self.album.id}/', headers={'permission': 'web_user'})
+        view = AlbumViewSet.as_view({'get': 'retrieve'})
+        response = view(request, pk=self.album.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['libelle'], "Test Album")
 
     def test_create_album(self):
         data = {
@@ -99,29 +106,29 @@ class AlbumIntegrationTest(TestCase):
         view = AlbumViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['libelle'], 'Test Album')
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertEqual(response.data['results'][0]['libelle'], 'Test Album')
 
     def test_get_album_filter_groupe(self):
         request = self.factory.get('/api/albums/', {'groupe__libelle': 'Test Groupe'}, headers={'permission': 'web_user'})
         view = AlbumViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)
-        self.assertEqual(response.data[0]['libelle'], 'Test Album')
+        self.assertEqual(len(response.data['results']), 2)
+        self.assertEqual(response.data['results'][0]['libelle'], 'Test Album')
 
     def test_get_album_filter_date_sortie(self):
         request = self.factory.get('/api/albums/', {'date_sortie': date.today()}, headers={'permission': 'web_user'})
         view = AlbumViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 3)
-        self.assertEqual(response.data[0]['libelle'], 'Test Album')
+        self.assertEqual(len(response.data['results']), 3)
+        self.assertEqual(response.data['results'][0]['libelle'], 'Test Album')
 
     def test_get_album_filter_lieu(self):
         request = self.factory.get('/api/albums/', {'lieu': 'Test Lieu'}, headers={'permission': 'web_user'})
         view = AlbumViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['lieu'], 'Test Lieu')
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertEqual(response.data['results'][0]['lieu'], 'Test Lieu')

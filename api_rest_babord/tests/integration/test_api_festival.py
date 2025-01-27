@@ -49,8 +49,15 @@ class FestivalIntegrationTest(TestCase):
         view = FestivalViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)
-        self.assertEqual(response.data[0]['description'], "Description du festival de test")
+        self.assertEqual(len(response.data['results']), 2)
+        self.assertEqual(response.data['results'][0]['description'], "Description du festival de test")
+
+    def test_get_festival_detail(self):
+        request = self.factory.get('/api/festivals/' + str(self.festival.id) + '/',headers={'permission': 'web_user'})
+        view = FestivalViewSet.as_view({'get': 'retrieve'})
+        response = view(request, pk=self.festival.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['description'], "Description du festival de test")
 
     def test_create_festival(self):
         data = {
@@ -92,22 +99,22 @@ class FestivalIntegrationTest(TestCase):
         view = FestivalViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['lieu'], 'Test Lieu')
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertEqual(response.data['results'][0]['lieu'], 'Test Lieu')
     
     def test_get_festival_filter_concerts(self):
         request = self.factory.get('/api/festivals/', {'concerts__intitule': 'Test Concert'},headers={'permission': 'web_user'})
         view = FestivalViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-        self.assertEqual(response.data[0]['lieu'], 'Test Lieu')
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertEqual(response.data['results'][0]['lieu'], 'Test Lieu')
 
     def test_get_festival_filter_date_debut(self):
         request = self.factory.get('/api/festivals/', {'date_debut': '2023-01-01'},headers={'permission': 'web_user'})
         view = FestivalViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
+        self.assertEqual(len(response.data['results']), 1)
     
     
