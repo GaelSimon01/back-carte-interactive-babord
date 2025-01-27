@@ -19,13 +19,32 @@ class GroupeIntegrationTest(TestCase):
             lien_producteur="http://test.com",
             departement="00000",
         )
+        self.groupe1 = Groupe.objects.create(
+            libelle="groupe1",
+            description="Description du groupe de test 1",
+            nb_homme=5,
+            nb_femme=3,
+            producteur="Test Producteur 1",
+            lien_producteur="http://test1.com",
+            departement="11111",
+        )
+        self.groupe2 = Groupe.objects.create(
+            libelle="groupe2",
+            description="Description du groupe de test 2",
+            nb_homme=5,
+            nb_femme=3,
+            producteur="Test Producteur 2",
+            lien_producteur="http://test2.com",
+            departement="22222",
+        )
+
 
     def test_get_groupe_list(self):
         request = self.factory.get('/api/groupes/',headers={'permission': 'web_user'})
         view = GroupeViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
+        self.assertEqual(len(response.data), 3)
         self.assertEqual(response.data[0]['libelle'], "Test Groupe")
     
     def test_get_groupe_detail(self):
@@ -49,7 +68,7 @@ class GroupeIntegrationTest(TestCase):
         view = GroupeViewSet.as_view({'post': 'create'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Groupe.objects.count(), 2)
+        self.assertEqual(Groupe.objects.count(), 4)
         self.assertEqual(Groupe.objects.get(id=response.data['id']).libelle, 'New Groupe')
 
     def test_update_groupe(self):
@@ -79,4 +98,28 @@ class GroupeIntegrationTest(TestCase):
         view = GroupeViewSet.as_view({'delete': 'destroy'})
         response = view(request, pk=self.groupe.id)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(Groupe.objects.count(), 0)
+        self.assertEqual(Groupe.objects.count(), 2)
+
+    def test_get_groupe_filter_libelle(self):
+        request = self.factory.get('/api/groupes/', {'libelle': 'groupe1'},headers={'permission': 'web_user'})
+        view = GroupeViewSet.as_view({'get': 'list'})
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['libelle'], 'groupe1')
+
+    def test_get_groupe_filter_departement(self):
+        request = self.factory.get('/api/groupes/', {'departement': '11111'},headers={'permission': 'web_user'})
+        view = GroupeViewSet.as_view({'get': 'list'})
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['departement'], '11111')
+
+    def test_get_groupe_filter_producteur(self):
+        request = self.factory.get('/api/groupes/', {'producteur': 'Test Producteur 1'},headers={'permission': 'web_user'})
+        view = GroupeViewSet.as_view({'get': 'list'})
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['producteur'], 'Test Producteur 1')

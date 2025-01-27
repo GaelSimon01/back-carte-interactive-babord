@@ -19,7 +19,13 @@ class Groupe(models.Model):
     nb_femme = models.IntegerField(blank=True, null=True)
     producteur = models.CharField(blank=True, null=True)
     lien_producteur = models.CharField(blank=True, null=True)
+    lien_facebook = models.CharField(blank=True, null=True)
+    lien_youtube = models.CharField(blank=True, null=True)
+    lien_site = models.CharField(blank=True, null=True)
+    lien_instagram = models.CharField(blank=True, null=True)
+    lien_twitter = models.CharField(blank=True, null=True)
     departement = models.CharField(blank=True, null=True)
+
 
     def __str__(self):
         return self.libelle
@@ -49,7 +55,9 @@ class Album(models.Model):
     description = models.CharField()
     date_sortie = models.DateField(default=now)
     lieu = models.CharField(blank=True,null=True)
-    groupe = models.ForeignKey(Groupe, on_delete=models.CASCADE)
+    groupe = models.ForeignKey(
+        Groupe, on_delete=models.SET_NULL,blank=True,null=True, related_name='albums'
+    )
 
     def __str__(self):
         return self.libelle

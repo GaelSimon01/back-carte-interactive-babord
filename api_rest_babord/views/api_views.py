@@ -4,6 +4,7 @@ Ce fichier contient les classes de vue de l'application api_rest_babord.
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 
@@ -23,6 +24,9 @@ class GroupeViewSet(ModelViewSet):
 
     queryset = Groupe.objects.all()
     serializer_class = GroupeSerializer
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['libelle', 'departement','producteur']
     
     def get_permissions(self):
         """
@@ -43,6 +47,9 @@ class AlbumViewSet(ModelViewSet):
 
     queryset = Album.objects.all()
     serializer_class = AlbumSerializer
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['libelle', 'groupe__libelle', 'date_sortie', 'lieu']
     
     def get_permissions(self):
         """
@@ -61,6 +68,9 @@ class ConcertViewSet(ModelViewSet):
 
     queryset = Concert.objects.all()
     serializer_class = ConcertSerializer
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['intitule', 'groupe__libelle', 'date_debut', 'lieu']
     
     def get_permissions(self):
         """
@@ -79,6 +89,9 @@ class FestivalViewSet(ModelViewSet):
 
     queryset = Festival.objects.all()
     serializer_class = FestivalSerializer
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['date_debut', 'lieu', 'concerts__intitule']
     
     def get_permissions(self):
         """
@@ -97,6 +110,9 @@ class InfoViewSet(ModelViewSet):
 
     queryset = Info.objects.all()
     serializer_class = InfoSerializer
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['titre', 'type_info']
     
     def get_permissions(self):
         """

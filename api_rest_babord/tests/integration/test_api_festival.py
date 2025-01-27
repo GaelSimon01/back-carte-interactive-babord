@@ -25,19 +25,31 @@ class FestivalIntegrationTest(TestCase):
             lieu="Test Lieu",
             groupe=self.groupe
         )
+        self.concert1 = Concert.objects.create(
+            intitule="concert1",
+            date_debut="2023-01-01",
+            lieu="Test Lieu 1",
+            groupe=self.groupe
+        )
         self.festival = Festival.objects.create(
             date_debut="2023-01-01",
             lieu="Test Lieu",
             description="Description du festival de test"
         )
+        self.festival1 = Festival.objects.create(
+            date_debut="2023-03-01",
+            lieu="Test Lieu 1",
+            description="Description du festival de test 1"
+        )
         self.festival.concerts.add(self.concert)
+        self.festival1.concerts.add(self.concert1)
 
     def test_get_festival_list(self):
         request = self.factory.get('/api/festivals/',headers={'permission': 'web_user'})
         view = FestivalViewSet.as_view({'get': 'list'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
+        self.assertEqual(len(response.data), 2)
         self.assertEqual(response.data[0]['description'], "Description du festival de test")
 
     def test_create_festival(self):
@@ -51,7 +63,7 @@ class FestivalIntegrationTest(TestCase):
         view = FestivalViewSet.as_view({'post': 'create'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Festival.objects.count(), 2)
+        self.assertEqual(Festival.objects.count(), 3)
         self.assertEqual(Festival.objects.get(id=response.data['id']).description, 'Description du nouveau festival')
 
     def test_update_festival(self):
@@ -73,4 +85,29 @@ class FestivalIntegrationTest(TestCase):
         view = FestivalViewSet.as_view({'delete': 'destroy'})
         response = view(request, pk=self.festival.id)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertEqual(Festival.objects.count(), 0)
+        self.assertEqual(Festival.objects.count(), 1)
+
+    def test_get_festival_filter_lieu(self):
+        request = self.factory.get('/api/festivals/', {'lieu': 'Test Lieu'},headers={'permission': 'web_user'})
+        view = FestivalViewSet.as_view({'get': 'list'})
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['lieu'], 'Test Lieu')
+    
+    def test_get_festival_filter_concerts(self):
+        request = self.factory.get('/api/festivals/', {'concerts__intitule': 'Test Concert'},headers={'permission': 'web_user'})
+        view = FestivalViewSet.as_view({'get': 'list'})
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['lieu'], 'Test Lieu')
+
+    def test_get_festival_filter_date_debut(self):
+        request = self.factory.get('/api/festivals/', {'date_debut': '2023-01-01'},headers={'permission': 'web_user'})
+        view = FestivalViewSet.as_view({'get': 'list'})
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+    
+    

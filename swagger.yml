@@ -1,0 +1,781 @@
+swagger: '2.0'
+info:
+  title: Babord API
+  description: API pour l'application Babord
+  contact:
+    email: gael.simon.28@gmail.com
+  license:
+    name: MIT License
+  version: v1
+host: localhost:8000
+schemes:
+- http
+basePath: /api
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  Basic:
+    type: basic
+security:
+- Basic: []
+paths:
+  /Utilisateur/:
+    get:
+      operationId: Utilisateur_list
+      description: Classe de vue du modèle UtilisateurMobile
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UtilisateurMobile'
+      tags:
+      - Utilisateur
+    post:
+      operationId: Utilisateur_create
+      description: Classe de vue du modèle UtilisateurMobile
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/UtilisateurMobile'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/UtilisateurMobile'
+      tags:
+      - Utilisateur
+    parameters: []
+  /Utilisateur/{id}/:
+    get:
+      operationId: Utilisateur_read
+      description: Classe de vue du modèle UtilisateurMobile
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/UtilisateurMobile'
+      tags:
+      - Utilisateur
+    put:
+      operationId: Utilisateur_update
+      description: Classe de vue du modèle UtilisateurMobile
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/UtilisateurMobile'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/UtilisateurMobile'
+      tags:
+      - Utilisateur
+    patch:
+      operationId: Utilisateur_partial_update
+      description: Classe de vue du modèle UtilisateurMobile
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/UtilisateurMobile'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/UtilisateurMobile'
+      tags:
+      - Utilisateur
+    delete:
+      operationId: Utilisateur_delete
+      description: Classe de vue du modèle UtilisateurMobile
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - Utilisateur
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this utilisateur mobile.
+      required: true
+      type: integer
+  /albums/:
+    get:
+      operationId: albums_list
+      description: Classe de vue du modèle Album
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Album'
+      tags:
+      - albums
+    post:
+      operationId: albums_create
+      description: Classe de vue du modèle Album
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Album'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Album'
+      tags:
+      - albums
+    parameters: []
+  /albums/{id}/:
+    get:
+      operationId: albums_read
+      description: Classe de vue du modèle Album
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Album'
+      tags:
+      - albums
+    put:
+      operationId: albums_update
+      description: Classe de vue du modèle Album
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Album'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Album'
+      tags:
+      - albums
+    patch:
+      operationId: albums_partial_update
+      description: Classe de vue du modèle Album
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Album'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Album'
+      tags:
+      - albums
+    delete:
+      operationId: albums_delete
+      description: Classe de vue du modèle Album
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - albums
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this album.
+      required: true
+      type: integer
+  /concerts/:
+    get:
+      operationId: concerts_list
+      description: Classe de vue du modèle Concert
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Concert'
+      tags:
+      - concerts
+    post:
+      operationId: concerts_create
+      description: Classe de vue du modèle Concert
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Concert'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Concert'
+      tags:
+      - concerts
+    parameters: []
+  /concerts/{id}/:
+    get:
+      operationId: concerts_read
+      description: Classe de vue du modèle Concert
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Concert'
+      tags:
+      - concerts
+    put:
+      operationId: concerts_update
+      description: Classe de vue du modèle Concert
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Concert'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Concert'
+      tags:
+      - concerts
+    patch:
+      operationId: concerts_partial_update
+      description: Classe de vue du modèle Concert
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Concert'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Concert'
+      tags:
+      - concerts
+    delete:
+      operationId: concerts_delete
+      description: Classe de vue du modèle Concert
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - concerts
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this concert.
+      required: true
+      type: integer
+  /festivals/:
+    get:
+      operationId: festivals_list
+      description: Classe de vue du modèle Festival
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Festival'
+      tags:
+      - festivals
+    post:
+      operationId: festivals_create
+      description: Classe de vue du modèle Festival
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Festival'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Festival'
+      tags:
+      - festivals
+    parameters: []
+  /festivals/{id}/:
+    get:
+      operationId: festivals_read
+      description: Classe de vue du modèle Festival
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Festival'
+      tags:
+      - festivals
+    put:
+      operationId: festivals_update
+      description: Classe de vue du modèle Festival
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Festival'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Festival'
+      tags:
+      - festivals
+    patch:
+      operationId: festivals_partial_update
+      description: Classe de vue du modèle Festival
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Festival'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Festival'
+      tags:
+      - festivals
+    delete:
+      operationId: festivals_delete
+      description: Classe de vue du modèle Festival
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - festivals
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this festival.
+      required: true
+      type: integer
+  /groupes/:
+    get:
+      operationId: groupes_list
+      description: Classe de vue du modèle Groupe
+      parameters:
+      - name: libelle
+        in: query
+        description: libelle
+        required: false
+        type: string
+      - name: departement
+        in: query
+        description: departement
+        required: false
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Groupe'
+      tags:
+      - groupes
+    post:
+      operationId: groupes_create
+      description: Classe de vue du modèle Groupe
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Groupe'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Groupe'
+      tags:
+      - groupes
+    parameters: []
+  /groupes/{id}/:
+    get:
+      operationId: groupes_read
+      description: Classe de vue du modèle Groupe
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Groupe'
+      tags:
+      - groupes
+    put:
+      operationId: groupes_update
+      description: Classe de vue du modèle Groupe
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Groupe'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Groupe'
+      tags:
+      - groupes
+    patch:
+      operationId: groupes_partial_update
+      description: Classe de vue du modèle Groupe
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Groupe'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Groupe'
+      tags:
+      - groupes
+    delete:
+      operationId: groupes_delete
+      description: Classe de vue du modèle Groupe
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - groupes
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this groupe.
+      required: true
+      type: integer
+  /infos/:
+    get:
+      operationId: infos_list
+      description: Classe de vue du modèle Info
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Info'
+      tags:
+      - infos
+    post:
+      operationId: infos_create
+      description: Classe de vue du modèle Info
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Info'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Info'
+      tags:
+      - infos
+    parameters: []
+  /infos/{id}/:
+    get:
+      operationId: infos_read
+      description: Classe de vue du modèle Info
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Info'
+      tags:
+      - infos
+    put:
+      operationId: infos_update
+      description: Classe de vue du modèle Info
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Info'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Info'
+      tags:
+      - infos
+    patch:
+      operationId: infos_partial_update
+      description: Classe de vue du modèle Info
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Info'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Info'
+      tags:
+      - infos
+    delete:
+      operationId: infos_delete
+      description: Classe de vue du modèle Info
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - infos
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this info.
+      required: true
+      type: integer
+  /mobile-login/:
+    post:
+      operationId: mobile-login_create
+      description: Vue pour l'authentification des utilisateurs mobiles
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags:
+      - mobile-login
+    parameters: []
+definitions:
+  UtilisateurMobile:
+    required:
+    - nom
+    - prenom
+    - mail
+    - password
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      nom:
+        title: Nom
+        type: string
+        minLength: 1
+      prenom:
+        title: Prenom
+        type: string
+        minLength: 1
+      mail:
+        title: Mail
+        type: string
+        format: email
+        maxLength: 254
+        minLength: 1
+      ville:
+        title: Ville
+        type: string
+        x-nullable: true
+      password:
+        title: Password
+        type: string
+        minLength: 1
+      code_postal:
+        title: Code postal
+        type: string
+        x-nullable: true
+      suivre_groupe:
+        type: array
+        items:
+          type: integer
+        uniqueItems: true
+  Album:
+    required:
+    - libelle
+    - description
+    - groupe
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      libelle:
+        title: Libelle
+        type: string
+        minLength: 1
+      description:
+        title: Description
+        type: string
+        minLength: 1
+      date_sortie:
+        title: Date sortie
+        type: string
+        format: date
+      lieu:
+        title: Lieu
+        type: string
+        x-nullable: true
+      groupe:
+        title: Groupe
+        type: integer
+  Concert:
+    required:
+    - intitule
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      intitule:
+        title: Intitule
+        type: string
+        minLength: 1
+      date_debut:
+        title: Date debut
+        type: string
+        format: date
+      lieu:
+        title: Lieu
+        type: string
+        x-nullable: true
+      groupe:
+        title: Groupe
+        type: integer
+        x-nullable: true
+  Festival:
+    required:
+    - description
+    - concerts
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      date_debut:
+        title: Date debut
+        type: string
+        format: date
+      lieu:
+        title: Lieu
+        type: string
+        x-nullable: true
+      description:
+        title: Description
+        type: string
+        minLength: 1
+      concerts:
+        type: array
+        items:
+          type: integer
+        uniqueItems: true
+  Groupe:
+    required:
+    - libelle
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      libelle:
+        title: Libelle
+        type: string
+        minLength: 1
+      description:
+        title: Description
+        type: string
+        x-nullable: true
+      nb_homme:
+        title: Nb homme
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+        x-nullable: true
+      nb_femme:
+        title: Nb femme
+        type: integer
+        maximum: 2147483647
+        minimum: -2147483648
+        x-nullable: true
+      producteur:
+        title: Producteur
+        type: string
+        x-nullable: true
+      lien_producteur:
+        title: Lien producteur
+        type: string
+        x-nullable: true
+      departement:
+        title: Departement
+        type: string
+        x-nullable: true
+  Info:
+    required:
+    - titre
+    - description
+    - nom_image
+    - type_info
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      titre:
+        title: Titre
+        type: string
+        minLength: 1
+      description:
+        title: Description
+        type: string
+        minLength: 1
+      nom_image:
+        title: Nom image
+        type: string
+        minLength: 1
+      type_info:
+        title: Type info
+        type: string
+        enum:
+        - ACTU
+        - INFO_DIVER
