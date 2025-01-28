@@ -24,7 +24,7 @@ services:
       - .:/work
       - static_volume:/work/static
     ports:
-      - "8000:8000"
+      - "8001:8000"
     environment:
       - DEBUG=1
       - DB_NAME=babord_bd
@@ -46,7 +46,7 @@ services:
       - ./nginx:/etc/nginx/conf.d
       - static_volume:/work/static
     ports:
-      - "8001:80"
+      - "8000:80"
     depends_on:
       - web
     networks:
