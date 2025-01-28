@@ -11,7 +11,7 @@ class GroupeSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Groupe
-        fields = ['id','libelle','description','nb_homme','nb_femme','producteur','lien_producteur','departement']
+        fields = ['id','libelle','description','nb_homme','nb_femme','producteur','lien_producteur','lien_twitter','lien_facebook','lien_youtube','lien_instagram','departement']
         
 
 class AlbumSerializer(serializers.ModelSerializer):
