@@ -42,9 +42,9 @@ class UtilisateurMobile(models.Model):
     prenom = models.CharField()
     mail = models.EmailField()
     password = models.CharField()
-    ville = models.CharField(blank=True, null=True)
     code_postal = models.CharField(blank=True, null=True)
     suivre_groupe = models.ManyToManyField(Groupe,blank=True)
+    
 
     def __str__(self):
         return self.nom + " " + self.prenom + " " + self.mail 

@@ -36,6 +36,6 @@ class MobileUserPermission(BasePermission):
     def has_permission(self, request, view):
         if("permission" in request.headers):
         # Vérifie si l'utilisateur est un utilisateur mobile
-            return request.headers['permission'] == "mobile_user" and UtilisateurMobile.objects.filter(mail=request.user.email).exists()
+            return request.headers['permission'] == "mobile_user" 
         else:
             return False

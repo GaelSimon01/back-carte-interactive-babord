@@ -50,6 +50,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api/mobile-login/', auth_views.MobileUserLoginView.as_view(), name='mobile-login'),
+
     path('swagger.yml/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger.json/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

@@ -63,8 +63,7 @@ class UtilisateurMobileTest(TestCase):
                                     {'nom': 'Test2',
                                      'prenom':'Test2',
                                      'mail':'test2@gmail.com',
-                                     'ville':'Test2 ville',
-                                     'code_postal':'54321',
+                                     'code_postal':"28000",
                                      'password':'abcdef',
                                      'suivre_groupe': []
                                      },
