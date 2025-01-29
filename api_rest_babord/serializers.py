@@ -52,7 +52,7 @@ class UtilisateurMobileSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = UtilisateurMobile
-        fields = ['id','nom','prenom','mail','ville','password','code_postal','suivre_groupe']
+        fields = ['id','nom','prenom','mail','password','code_postal','suivre_groupe']
 
     def create(self, validated_data):
         """
