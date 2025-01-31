@@ -174,3 +174,9 @@ Un certain nombre d'amélioration sont possible notamment :
 Pour contacter les développeurs, vous pouvez envoyer un mail à l'adresse suivante : 
 
 aide.dev.api.babord@gmail.com
+
+
+## Fonctionnalite en cours d'implémentation 
+
+Comme expliquer dans la partie amélioration possible, certaines fonctionnalités sont en cours d'implémentation :
+ - les JWT, je rencontre un probleme sur le fait qu'il est necessaire d'utiliser les user de django pour les jwt cependant je ne l'ai utilise pas du tout dans le projet, je cherche donc un moyen de contourner regler ce probleme 

@@ -4,7 +4,7 @@ from api_rest_babord.views.api_views import UtilisateurMobileViewSet
 from api_rest_babord.views.auth_views import MobileUserLoginView
 from rest_framework import status
 import bcrypt
-
+import json
 class UtilisateurMobileTest(TestCase):
 
     def setUp(self):
@@ -15,7 +15,6 @@ class UtilisateurMobileTest(TestCase):
             nom='Test',
             prenom='Test',
             mail='test@gmail.com',
-            ville = "Test ville",
             code_postal = "12345",
         )
         self.groupe = Groupe.objects.create(
@@ -59,22 +58,35 @@ class UtilisateurMobileTest(TestCase):
         self.assertEqual(response.data['type'], "unknow_email")
 
     def test_create_user(self):
-        request = self.factory.post('/api/utilisateur-mobile/', 
+        request = self.factory.post('/api/Utilisateur/', 
                                     {'nom': 'Test2',
                                      'prenom':'Test2',
                                      'mail':'test2@gmail.com',
                                      'code_postal':"28000",
-                                     'password':'abcdef',
-                                     'suivre_groupe': []
+                                     'password':'abcdef'
                                      },
                                      headers={'permission': 'create_mobile_user'})
         view = UtilisateurMobileViewSet.as_view({'post':'create'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data['mail'], 'test2@gmail.com')
-        self.assertEqual(response.data['ville'], 'Test2 ville')
-        self.assertEqual(response.data['code_postal'], '54321')
+        self.assertEqual(response.data['code_postal'], '28000')
         self.assertEqual(response.data['nom'], 'Test2')
         self.assertEqual(response.data['prenom'], 'Test2')
+
+    def test_partial_update_user(self):
+        data = {
+                "nom": 'Test2',
+                "prenom":'Test2',
+                "suivre_groupe": [self.groupe.id]
+        }
+        request = self.factory.patch('/api/Utilisateur/' + str(self.utilisateur.id) + '/', 
+                                    data = json.dumps(data),headers={"permission": 'mobile_user','content-type': 'application/json'})
+        view = UtilisateurMobileViewSet.as_view({'patch':'partial_update'})
+        response = view(request, pk=self.utilisateur.id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['nom'], 'Test2')
+        self.assertEqual(response.data['prenom'], 'Test2')
+        self.assertEqual(response.data['suivre_groupe'][0], self.groupe.id)
     
 

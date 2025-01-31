@@ -22,6 +22,11 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
+from rest_framework_simplejwt.views import (
+    TokenRefreshView,
+)
+
+
 from api_rest_babord.views import api_views, auth_views
 
 router = routers.DefaultRouter()
@@ -55,6 +60,8 @@ urlpatterns = [
     path('swagger.json/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-   
+
+    path('api/token/', auth_views.UtilisateurMobileTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
 ]

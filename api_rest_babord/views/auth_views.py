@@ -5,6 +5,12 @@ from api_rest_babord.models import UtilisateurMobile
 from api_rest_babord.serializers import UtilisateurMobileSerializer
 import bcrypt
 
+from rest_framework_simplejwt.views import TokenViewBase
+from api_rest_babord.serializers import UtilisateurMobileTokenObtainPairSerializer
+
+class UtilisateurMobileTokenObtainPairView(TokenViewBase):
+    serializer_class = UtilisateurMobileTokenObtainPairSerializer
+
 class MobileUserLoginView(APIView):
     """
     Vue pour l'authentification des utilisateurs mobiles

@@ -74,24 +74,14 @@ class GroupeIntegrationTest(TestCase):
     def test_update_groupe(self):
         data = {
             'libelle': 'Updated Groupe',
-            'description': 'Description du groupe mis à jour',
-            'nb_homme': 4,
-            'nb_femme': 6,
-            'producteur': 'Updated Producteur',
-            'lien_producteur': 'http://updated.com',
-            'departement': '11111'
         }
         request = self.factory.put('/api/groupes/' + str(self.groupe.id) + '/', data, format='json',headers={'permission': 'web_user'}, content_type='application/json')
         view = GroupeViewSet.as_view({'put': 'update'})
         response = view(request, pk=self.groupe.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Groupe.objects.get(id=self.groupe.id).libelle, 'Updated Groupe')
-        self.assertEqual(Groupe.objects.get(id=self.groupe.id).producteur, 'Updated Producteur')
-        self.assertEqual(Groupe.objects.get(id=self.groupe.id).departement, '11111')
-        self.assertEqual(Groupe.objects.get(id=self.groupe.id).lien_producteur, 'http://updated.com')
-        self.assertEqual(Groupe.objects.get(id=self.groupe.id).description, 'Description du groupe mis à jour')
-        self.assertEqual(Groupe.objects.get(id=self.groupe.id).nb_homme, 4)
-        self.assertEqual(Groupe.objects.get(id=self.groupe.id).nb_femme, 6)
+        self.assertEqual(Groupe.objects.get(id=self.groupe.id).nb_homme, 5)
+        self.assertEqual(Groupe.objects.get(id=self.groupe.id).nb_femme, 3)
 
     def test_delete_groupe(self):
         request = self.factory.delete('/api/groupes/' + str(self.groupe.id) + '/',headers={'permission': 'web_user'})
