@@ -63,7 +63,7 @@ class UtilisateurMobileTest(TestCase):
                                      'prenom':'Test2',
                                      'mail':'test2@gmail.com',
                                      'code_postal':"28000",
-                                     'password':'abcdef'
+                                     'password':'12345'
                                      },
                                      headers={'permission': 'create_mobile_user'})
         view = UtilisateurMobileViewSet.as_view({'post':'create'})
@@ -73,6 +73,20 @@ class UtilisateurMobileTest(TestCase):
         self.assertEqual(response.data['code_postal'], '28000')
         self.assertEqual(response.data['nom'], 'Test2')
         self.assertEqual(response.data['prenom'], 'Test2')
+
+    def test_mail_already_use(self):
+        request = self.factory.post('/api/Utilisateur/', 
+                                    {'nom': 'Test2',
+                                     'prenom':'Test2',
+                                     'mail':'test@gmail.com',
+                                     'code_postal':"28000",
+                                     'password':'abcdef'
+                                     },
+                                     headers={'permission': 'create_mobile_user'})
+        view = UtilisateurMobileViewSet.as_view({'post':'create'})
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data[0], 'email_already_exists')
 
     def test_partial_update_user(self):
         data = {
@@ -88,5 +102,6 @@ class UtilisateurMobileTest(TestCase):
         self.assertEqual(response.data['nom'], 'Test2')
         self.assertEqual(response.data['prenom'], 'Test2')
         self.assertEqual(response.data['suivre_groupe'][0], self.groupe.id)
+
     
 

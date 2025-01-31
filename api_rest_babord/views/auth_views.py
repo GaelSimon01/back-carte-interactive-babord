@@ -26,6 +26,8 @@ class MobileUserLoginView(APIView):
             user = UtilisateurMobile.objects.get(mail=mail)
         except UtilisateurMobile.DoesNotExist:
             return Response({"error": "Utilisateur non trouvé","type":"unknow_email"}, status=status.HTTP_404_NOT_FOUND)
+        except UtilisateurMobile.MultipleObjectsReturned:
+            return Response({"error": "Plusieurs utilisateurs trouvés","type":"multiple_users"}, status=status.HTTP_400_BAD_REQUEST)
 
         if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
             serializer = UtilisateurMobileSerializer(user)

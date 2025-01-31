@@ -89,15 +89,20 @@ class UtilisateurMobileSerializer(serializers.ModelSerializer):
         Création d'un utilisateur mobile avec mot de passe haché
         """
         # Hacher le mot de passe
-        password = validated_data.pop('password')
-        suivre_groupe = validated_data.pop('suivre_groupe')
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
-        validated_data['password'] = hashed_password.decode('utf-8')
+        try : 
+            UtilisateurMobile.objects.get(mail=validated_data['mail'])
+            raise serializers.ValidationError('email_already_exists')
+        except UtilisateurMobile.DoesNotExist:
+            password = validated_data.pop('password')
+            suivre_groupe = validated_data.pop('suivre_groupe')
+            hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+            validated_data['password'] = hashed_password.decode('utf-8')
+            
+            # Créer l'utilisateur mobile et lui associer les groupes suivis
+            utilisateur_mobile = UtilisateurMobile.objects.create(**validated_data)
+            utilisateur_mobile.suivre_groupe.set(suivre_groupe)
+            return utilisateur_mobile
         
-        # Créer l'utilisateur mobile et lui associer les groupes suivis
-        utilisateur_mobile = UtilisateurMobile.objects.create(**validated_data)
-        utilisateur_mobile.suivre_groupe.set(suivre_groupe)
-        return utilisateur_mobile
 
         
         return UtilisateurMobile.objects.create(**validated_data)
