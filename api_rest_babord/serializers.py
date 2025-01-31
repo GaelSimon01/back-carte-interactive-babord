@@ -102,10 +102,6 @@ class UtilisateurMobileSerializer(serializers.ModelSerializer):
             utilisateur_mobile = UtilisateurMobile.objects.create(**validated_data)
             utilisateur_mobile.suivre_groupe.set(suivre_groupe)
             return utilisateur_mobile
-        
-
-        
-        return UtilisateurMobile.objects.create(**validated_data)
     
     def delete(self, validated_data):
         """
