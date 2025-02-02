@@ -90,29 +90,27 @@ WSGI_APPLICATION = 'babord_project.wsgi.application'
 
 # settings.py
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.getenv('DB_NAME'),
-#         'USER': os.getenv('DB_USER'),
-#         'PASSWORD': os.getenv('DB_PASSWORD'),
-#         'HOST': os.getenv('DB_HOST'),
-#         'PORT': os.getenv('DB_PORT'),
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "babord_bd",
-        'USER': "gael",
-        'PASSWORD': "gael",
-        'HOST': "localhost",
-        'PORT': "5432",
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
-SEARCH_PARAM = "q"
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': "babord_bd",
+#         'USER': "gael",
+#         'PASSWORD': "gael",
+#         'HOST': "localhost",
+#         'PORT': "5432",
+#     }
+# }
 
 
 # Password validation
@@ -180,10 +178,12 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20,  # Nombre d'éléments par page
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend'
-    ]
+    ],
+    'SEARCH_PARAM' : "q"
 }
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+
 

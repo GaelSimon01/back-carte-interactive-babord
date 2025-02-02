@@ -9,6 +9,12 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from api_rest_babord.models import UtilisateurMobile
 
 class UtilisateurMobileTokenObtainPairSerializer(TokenObtainPairSerializer):
+    """
+    Classe de sérialisation de l'obtention du token pour un utilisateur mobile 
+
+    TODO
+    il utilise les users de base de django il faudriat le faire pour les users mobile du modele
+    """
 
     @classmethod
     def get_token(cls, user):
@@ -21,10 +27,10 @@ class UtilisateurMobileTokenObtainPairSerializer(TokenObtainPairSerializer):
         try:
             user = UtilisateurMobile.objects.get(mail=attrs['mail'])
         except UtilisateurMobile.DoesNotExist:
-            raise serializers.ValidationError('No active account found with the given credentials')
+            raise serializers.ValidationError('pas de compte trouvé avec les identifiants donnés')
 
         if not user.check_password(attrs['password']):
-            raise serializers.ValidationError('No active account found with the given credentials')
+            raise serializers.ValidationError('Pas de compte trouvé avec les identifiants donnés')
 
         refresh = self.get_token(user)
 
@@ -119,7 +125,6 @@ class UtilisateurMobileSerializer(serializers.ModelSerializer):
         """
         Mise à jour d'un utilisateur mobile
         """
-        print(validated_data)
         if('password' in validated_data):
             password = validated_data.pop('password')
             hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())

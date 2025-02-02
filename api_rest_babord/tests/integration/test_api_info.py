@@ -78,3 +78,14 @@ class InfoIntegrationTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['results']), 1)
         self.assertEqual(response.data['results'][0]['titre'], 'Test Info')
+
+    def test_get_info_search(self):
+        request = self.factory.get('/api/infos/', {'q': 'test'},headers={'permission': 'web_user'})
+        view = InfoViewSet.as_view({'get': 'list'})
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertEqual(response.data['results'][0]['titre'], 'Test Info')
+        self.assertEqual(response.data['results'][0]['description'], "Description de l'info de test")
+        self.assertEqual(response.data['results'][0]['nom_image'], 'test_image.jpg')
+        self.assertEqual(response.data['results'][0]['type_info'], 'ACTU')

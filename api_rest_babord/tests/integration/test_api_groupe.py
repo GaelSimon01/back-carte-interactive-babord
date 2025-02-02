@@ -113,3 +113,11 @@ class GroupeIntegrationTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['results']), 1)
         self.assertEqual(response.data['results'][0]['producteur'], 'Test Producteur 1')
+
+    def test_get_groupe_search(self):
+        request = self.factory.get('/api/groupes/', {'q': '00000'},headers={'permission': 'web_user'})
+        view = GroupeViewSet.as_view({'get': 'list'})
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['results']), 1)
+        self.assertEqual(response.data['results'][0]['libelle'], 'Test Groupe')

@@ -116,5 +116,14 @@ class FestivalIntegrationTest(TestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['results']), 1)
+
+    def test_get_festival_search(self):
+        request = self.factory.get('/api/festivals/', {'q': 'Test Lieu'},headers={'permission': 'web_user'})
+        view = FestivalViewSet.as_view({'get': 'list'})
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['results']), 2)
+        self.assertEqual(response.data['results'][0]['lieu'], 'Test Lieu')
+        self.assertEqual(response.data['results'][1]['lieu'], 'Test Lieu 1')
     
     
