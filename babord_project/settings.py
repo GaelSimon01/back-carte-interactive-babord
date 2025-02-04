@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent
 SECRET_KEY = 'django-insecure-9&grfvr@^$9)4g^ohq48ewbfn9n)h8m7d&vzqdgj***i@237tn'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -48,9 +48,11 @@ INSTALLED_APPS = [
     'django_filters', 
     'drf_yasg',
     'rest_framework_simplejwt',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -61,6 +63,14 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'babord_project.urls'
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+    'permission',  # Ajoutez cet en-tête personnalisé
+]
 
 TEMPLATES = [
     {
