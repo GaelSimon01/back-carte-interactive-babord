@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concerts</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Bouton d'ouverture */
+        .open-modal-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Overlay du modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Contenu de la modale */
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 400px;
+            max-width: 90%;
+        }
+
+        /* Bouton de fermeture */
+        .close-modal-btn {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            float: right;
+        }
+
+        /* Formulaire */
+        #form-modal {
+            margin-top: 20px;
+        }
+
+        .div-form {
+            margin-bottom: 16px;
+        }
+
+        /* Container de la recherche d'adresse */
+        .search-dropdown {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        #resultList {
+            position: absolute;
+            z-index: 1000;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ced4da;
+            border-top: none;
+        }
+
+        .list-group-item {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="open-modal-btn" onclick="modalCreateGroupe()">Créer un groupe</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Libellé</th>
+                <th>Producteur</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tableau-groupes">
+
+        </tbody>
+    </table>
+
+
+    <div class="modal-overlay" id="modal-groupe">
+        <div class="modal-content">
+            <button class="close-modal-btn" id="close-groupe">X</button>
+            <h2 id="titre-modal-groupe"></h2>
+            <div class="div-form">
+                <label for="libelle">Libellé</label>
+                <input type="text" id="groupe-libelle" name="libelle" required>
+            </div>
+
+            <div class="div-form">
+                <label for="description">Description</label>
+                <input type="text" id="groupe-description" name="description">
+            </div>
+
+            <div class="div-form">
+                <label for="nb_homme">Nombre d'hommes</label>
+                <input type="number" id="groupe-nb_homme" name="nb_homme" value="0" min="0">
+            </div>
+
+            <div class="div-form">
+                <label for="nb_femme">Nombre de femmes</label>
+                <input type="number" id="groupe-nb_femme" name="nb_femme" value="0" min="0">
+            </div>
+
+            <div class="div-form">
+                <label for="producteur">Producteur</label>
+                <input type="text" id="groupe-producteur" name="producteur">
+            </div>
+
+            <div class="div-form">
+                <label for="lien_producteur">Lien Producteur</label>
+                <input type="text" id="groupe-lien_producteur" name="lien_producteur">
+            </div>
+
+            <div class="div-form">
+                <label for="lien_facebook">Lien Facebook</label>
+                <input type="text" id="groupe-lien_facebook" name="lien_facebook">
+            </div>
+
+            <div class="div-form">yyyy
+                <label for="lien_youtube">Lien YouTube</label>
+                <input type="text" id="groupe-lien_youtube" name="lien_youtube">
+            </div>
+
+            <div class="div-form">
+                <label for="lien_site">Lien Site</label>
+                <input type="text" id="groupe-lien_site" name="lien_site">
+            </div>
+
+            <div class="div-form">
+                <label for="lien_instagram">Lien Instagram</label>
+                <input type="text" id="groupe-lien_instagram" name="lien_instagram">
+            </div>
+
+            <div class="div-form">
+                <label for="lien_twitter">Lien Twitter</label>
+                <input type="text" id="groupe-lien_twitter" name="lien_twitter">
+            </div>
+
+            <div class="div-form">
+                <label for="departement">Département</label>
+                <input type="text" id="groupe-departement" name="departement">
+            </div>
+
+            <input type="hidden" name="id" id="groupe-id">
+
+            <button id="submit-create-groupe" onclick="validateCreationGroupe()" hidden>Creer</button>
+            <button id="submit-update-groupe" onclick="validateEditGroupe()" hidden>Modifier</button>
+        </div>
+    </div>
+
+    <button class="open-modal-btn" onclick="modalCreateConcert()">Créer un concert</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Intitulé</th>
+                <th>Date de début</th>
+                <th>Lieu</th>
+                <th>Groupe</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tableau-concerts">
+
+        </tbody>
+    </table>
+
+    <div class="modal-overlay" id="modal-concert">
+        <div class="modal-content">
+            <button class="close-modal-btn" id="close-concert">X</button>
+            <h2 id="titre-modal-concert"></h2>
+            <div class="div-form">
+                <label for="intitule">Intitulé</label>
+                <input type="text" id="concert-intitule" name="intitule" required>
+            </div>
+
+            <div class="div-form">
+                <label for="date_debut">Date de début</label>
+                <input type="date" id="concert-date_debut" name="date_debut">
+            </div>
+
+            <div class="div-form">
+                <label for="lieu">Lieu</label>
+                <input type="text" id="concert-lieu" name="lieu">
+                <input type="hidden" id="concert-lieu-longitude" name="concert-lieu-longitude">
+                <input type="hidden" id="concert-lieu-latitude" name="concert-lieu-latitude">
+                <button type="button" class="btn btn-primary" onclick="openAddressModal()">Rechercher</button>
+            </div>
+
+            <div class="div-form">
+                <!-- Dropdown pour sélectionner un groupe -->
+                <label for="concert-groupe">Groupe</label>
+                <select id="concert-groupe" name="groupe" required>
+                    <option value="">Sélectionnez un groupe</option>
+                </select>
+            </div>
+
+            <input type="hidden" name="id" id="concert-id">
+
+            <button id="submit-create-concert" onclick="validateCreationConcert()" hidden>Créer</button>
+            <button id="submit-update-concert" onclick="validateEditConcert()" hidden>Modifier</button>
+        </div>
+    </div>
+
+
+    <button class="open-modal-btn" onclick="modalCreateAlbum()">Créer un album</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Libellé</th>
+                <th>Date de sortie</th>
+                <th>Lieu</th>
+                <th>Groupe</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tableau-albums">
+            <!-- Les albums seront affichés ici -->
+        </tbody>
+    </table>
+
+
+    <div class="modal-overlay" id="modal-album">
+        <div class="modal-content">
+            <button class="close-modal-btn" id="close-album">X</button>
+            <h2 id="titre-modal-album"></h2>
+            <div class="div-form">
+                <label for="album-libelle">Libellé</label>
+                <input type="text" id="album-libelle" name="libelle" required>
+            </div>
+
+            <div class="div-form">
+                <label for="album-description">Description</label>
+                <input type="text" id="album-description" name="description">
+            </div>
+
+            <div class="div-form">
+                <label for="album-date_sortie">Date de sortie</label>
+                <input type="date" id="album-date_sortie" name="date_sortie" required>
+            </div>
+
+            <div class="div-form">
+                <label for="lieu">Lieu</label>
+                <input type="text" id="album-lieu" name="lieu">
+                <input type="hidden" id="album-lieu-longitude" name="album-lieu-longitude">
+                <input type="hidden" id="album-lieu-latitude" name="album-lieu-latitude">
+                <button type="button" class="btn btn-primary" onclick="openAddressModal()">Rechercher</button>
+            </div>
+
+            <div class="div-form">
+                <label for="album-groupe">Groupe</label>
+                <select id="album-groupe" name="groupe" required>
+                    <option value="">Sélectionnez un groupe</option>
+                </select>
+            </div>
+
+            <input type="hidden" name="id" id="album-id">
+
+            <button type="button" id="submit-create-album" onclick="validateCreationAlbum()">Créer</button>
+            <button type="button" id="submit-update-album" onclick="validateEditAlbum()">Modifier</button>
+        </div>
+    </div>
+
+
+    <button class="open-modal-btn" onclick="modalCreateInfo()">Créer une information</button>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Nom de l'image</th>
+                <th>Type d'information</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tableau-infos">
+
+        </tbody>
+    </table>
+
+
+    <div class="modal-overlay" id="modal-info">
+        <div class="modal-content">
+            <button class="close-modal-btn" id="close-info">X</button>
+            <h2 id="titre-modal-info"></h2>
+            <form id="form-modal-info">
+                <div class="div-form">
+                    <label for="info-titre">Titre</label>
+                    <input type="text" id="info-titre" name="titre" required>
+                </div>
+
+                <div class="div-form">
+                    <label for="info-description">Description</label>
+                    <input type="text" id="info-description" name="description">
+                </div>
+
+                <div class="div-form">
+                    <label for="info-nom_image">Nom de l'image</label>
+                    <input type="text" id="info-nom_image" name="nom_image">
+                </div>
+
+                <div class="div-form">
+                    <label for="info-type_info">Type d'information</label>
+                    <select id="info-type_info" name="type_info" required>
+                        <option value="">Sélectionnez un type</option>
+                        <option value="ACTU">Actualité</option>
+                        <option value="INFO_DIVER">Information diverse</option>
+                    </select>
+                </div>
+
+                <input type="hidden" name="id" id="info-id">
+
+                <button type="button" id="submit-create-info" onclick="validateCreationInfo()">Créer</button>
+                <button type="button" id="submit-update-info" onclick="validateEditInfo()">Modifier</button>
+            </form>
+        </div>
+    </div>
+
+
+    <button class="open-modal-btn" onclick="modalCreateFestival()">Créer un festival</button>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>Date de début</th>
+                <th>Lieu</th>
+                <th>Description</th>
+                <th>Concerts</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tableau-festivals">
+
+        </tbody>
+    </table>
+
+
+    <div class="modal-overlay" id="modal-festival">
+        <div class="modal-content">
+            <button class="close-modal-btn" onclick="closeFestivalModal()">X</button>
+            <h2 id="titre-modal-festival"></h2>
+            <form id="form-modal-festival">
+                <div class="div-form">
+                    <label for="festival-date_debut">Date de début</label>
+                    <input type="date" id="festival-date_debut" name="date_debut" required>
+                </div>
+
+                <div class="div-form">
+                    <label for="lieu">Lieu</label>
+                    <input type="text" id="festival-lieu" name="lieu">
+                    <input type="hidden" id="festival-lieu-longitude" name="festival-lieu-longitude">
+                    <input type="hidden" id="festival-lieu-latitude" name="festival-lieu-latitude">
+                    <button type="button" class="btn btn-primary" onclick="openAddressModal()">Rechercher</button>
+                </div>
+
+                <div class="div-form">
+                    <label for="festival-description">Description</label>
+                    <input type="text" id="festival-description" name="description">
+                </div>
+
+                <div class="div-form">
+                    <label for="festival-concerts">Concerts</label>
+                    <select id="festival-concerts" name="concerts" multiple required>
+                        <!-- Les concerts seront ajoutés ici -->
+                    </select>
+                </div>
+
+                <input type="hidden" name="id" id="festival-id">
+
+                <button type="button" id="submit-create-festival" onclick="validateCreationFestival()">Créer</button>
+                <button type="button" id="submit-update-festival" onclick="validateEditFestival()">Modifier</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-address">
+        <div class="modal-content">
+            <button class="close-modal-btn" id="close-recherche-addresse" onclick="closeAddressModal()">X</button>
+            <h2>Recherche d'adresse</h2>
+            <div class="search-dropdown">
+                <div class="input-group">
+                    <input type="text" id="addressInput" class="form-control" placeholder="Recherchez une adresse...">
+                    <button class="btn btn-primary" type="button" id="searchBtn">Rechercher</button>
+                </div>
+                <ul class="list-group mt-1" id="resultList"></ul>
+            </div>
+            <div class="mt-4 text-center">
+                <h3>Lieu sélectionné</h3>
+                <p id="selectedInfo">Aucun lieu sélectionné</p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const addr = 'http://86.218.243.242:8000/';
+        const modalConcertOverlay = document.getElementById('modal-concert');
+        const modalGroupeOverlay = document.getElementById('modal-groupe');
+        const modalAlbumOverlay = document.getElementById('modal-album');
+        const modalInfoOverlay = document.getElementById('modal-info');
+        const modalFestivalOverlay = document.getElementById('modal-festival');
+
+        const MODAL_CONCERT = 'CONCERT';
+        const MODAL_GROUPE = 'GROUPE';
+        const MODAL_ALBUM = 'ALBUM';
+        const MODAL_FESTIVAL = 'FESTIVAL';
+        const MODAL_INFO = 'INFO';
+
+        var modalOuvert = null;
+
+        class APICaller {
+            async callAPI(method, url, data = null, permission = null) {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'permission': permission,
+                    },
+                };
+
+                if (data && method !== 'GET' && method !== 'HEAD') {
+                    options.body = JSON.stringify(data);
+                }
+
+                const response = await fetch(url, options);
+                const responseData = await response.json();
+                return responseData;
+            }
+        }
+
+        ///////////////////////////////////////////// CONCERT /////////////////////////////////////////////
+        class APIConcert extends APICaller {
+            async getConcerts() {
+                const url = addr + 'api/concerts/';
+                const response = await this.callAPI('GET', url, null, 'web_user');
+                return response;
+            }
+
+            async getConcert(id) {
+                const url = addr + `api/concerts/${id}/`;
+                const response = await this.callAPI('GET', url, null, 'web_user');
+                return response;
+            }
+
+            async createConcert(data) {
+                const url = addr + 'api/concerts/';
+                const response = await this.callAPI('POST', url, data, 'web_user');
+                return response;
+            }
+
+            async updateConcert(id, data) {
+                const url = addr + `api/concerts/${id}/`;
+                const response = await this.callAPI('PATCH', url, data, 'web_user');
+                return response;
+            }
+
+            async deleteConcert(id) {
+                const url = addr + `api/concerts/${id}/`;
+                const response = await this.callAPI('DELETE', url, null, 'web_user');
+                return response;
+            }
+        }
+
+        const apiConcert = new APIConcert();
+
+        async function displayConcerts() {
+            modalConcertOverlay.style.display = 'none';
+            const concerts = await apiConcert.getConcerts().then((data) => {
+                console.log(data);
+                const tbody = document.getElementById('tableau-concerts');
+                tbody.innerHTML = '';
+                data["results"].forEach(async concert => {
+                    let nomGroupe = "";
+                    await getGroupe(concert.groupe).then((groupe) => {
+                        nomGroupe = groupe.libelle;
+                    });
+                    let lieu = formatAdresseParse(concert.lieu);
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                    <td>${concert.intitule}</td>
+                    <td>${concert.date_debut}</td>
+                    <td>${lieu}</td>
+                    <td>${nomGroupe}</td>
+                    <td>
+                        <button onclick="modalEditConcert(${concert.id})">Modifier</button>
+                        <button onclick="deleteConcert(${concert.id})">Supprimer</button>
+                    </td>
+                `;
+                    tbody.appendChild(tr);
+                });
+            });
+            cleanModalConcert();
+        }
+
+        async function deleteConcert(id) {
+            await apiConcert.deleteConcert(id);
+            displayConcerts();
+        }
+
+        async function modalEditConcert(id) {
+            modalOuvert = MODAL_CONCERT;
+            const concert = await apiConcert.getConcert(id);
+            document.getElementById('titre-modal-concert').innerText = 'Modifier un concert';
+            document.getElementById('submit-create-concert').hidden = true;
+            document.getElementById('submit-update-concert').hidden = false;
+            document.getElementById('concert-id').value = concert.id;
+            await populateGroupeDropdown();
+            modalConcertOverlay.style.display = 'flex';
+
+            document.getElementById('concert-intitule').value = concert.intitule;
+            document.getElementById('concert-date_debut').value = concert.date_debut;
+            document.getElementById('concert-lieu').value = formatAdresseParse(concert.lieu);
+            document.getElementById('concert-groupe').value = concert.groupe;
+            console.log(document.getElementById('concert-groupe').value);
+        }
+
+        async function validateEditConcert() {
+            const id = document.getElementById('concert-id').value;
+            let lieu = {
+                nom: document.getElementById('concert-lieu').value,
+                latitude: document.getElementById('concert-lieu-latitude').value,
+                longitude: document.getElementById('concert-lieu-longitude').value
+            }
+            let lieu_string = formatAdresseString(lieu);
+            const data = {
+                intitule: document.getElementById('concert-intitule').value,
+                date_debut: document.getElementById('concert-date_debut').value,
+                lieu: lieu_string,
+                groupe: document.getElementById('concert-groupe').value,
+            };
+            await apiConcert.updateConcert(id, data);
+            displayConcerts();
+        }
+
+        async function modalCreateConcert() {
+            modalOuvert = MODAL_CONCERT;
+            document.getElementById('titre-modal-concert').innerText = 'Créer un concert';
+            document.getElementById('submit-create-concert').hidden = false;
+            document.getElementById('submit-update-concert').hidden = true;
+            populateGroupeDropdown();
+            modalConcertOverlay.style.display = 'flex';
+        }
+
+        async function validateCreationConcert() {
+            let lieu = {
+                nom: document.getElementById('concert-lieu').value,
+                latitude: document.getElementById('concert-lieu-latitude').value,
+                longitude: document.getElementById('concert-lieu-longitude').value
+            }
+            let lieu_string = formatAdresseString(lieu);
+            const data = {
+                intitule: document.getElementById('concert-intitule').value,
+                date_debut: document.getElementById('concert-date_debut').value,
+                lieu: lieu_string,
+                groupe: document.getElementById('concert-groupe').value,
+            };
+            await apiConcert.createConcert(data);
+            displayConcerts();
+        }
+
+        function cleanModalConcert() {
+            document.getElementById('concert-intitule').value = '';
+            document.getElementById('concert-date_debut').value = '';
+            document.getElementById('concert-lieu').value = '';
+            document.getElementById('concert-lieu-longitude').value = '';
+            document.getElementById('concert-lieu-latitude').value = '';
+            document.getElementById('concert-groupe').value = '';
+        }
+
+        ///////////////////////////////////////////// GROUPE /////////////////////////////////////////////
+
+        class APIGroupe extends APICaller {
+            async getGroupes() {
+                const url = addr + 'api/groupes/';
+                const response = await this.callAPI('GET', url, null, 'web_user');
+                return response;
+            }
+
+            async getGroupe(id) {
+                const url = addr + `api/groupes/${id}/`;
+                const response = await this.callAPI('GET', url, null, 'web_user');
+                return response;
+            }
+
+            async createGroupe(data) {
+                const url = addr + 'api/groupes/';
+                const response = await this.callAPI('POST', url, data, 'web_user');
+                return response;
+            }
+
+            async updateGroupe(id, data) {
+                const url = addr + `api/groupes/${id}/`;
+                const response = await this.callAPI('PATCH', url, data, 'web_user');
+                return response;
+            }
+
+            async deleteGroupe(id) {
+                const url = addr + `api/groupes/${id}/`;
+                const response = await this.callAPI('DELETE', url, null, 'web_user');
+                return response;
+            }
+        }
+
+        const apiGroupe = new APIGroupe();
+
+        async function displayGroupes() {
+            console.log('displayGroupes');
+            modalGroupeOverlay.style.display = 'none';
+            const groupes = await apiGroupe.getGroupes().then((data) => {
+                console.log(data);
+                const tbody = document.getElementById('tableau-groupes');
+                tbody.innerHTML = '';
+                data["results"].forEach(groupe => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                    <td>${groupe.libelle}</td>
+                    <td>${groupe.producteur}</td>
+                    <td>
+                        <button onclick="modalEditGroupe(${groupe.id})">Modifier</button>
+                        <button onclick="deleteGroupe(${groupe.id})">Supprimer</button>
+                    </td>
+                `;
+                    tbody.appendChild(tr);
+                });
+            });
+            cleanModalGroupe()
+        }
+
+        async function deleteGroupe(id) {
+            await apiGroupe.deleteGroupe(id);
+            displayGroupes();
+        }
+
+        async function getGroupe(id) {
+            return await apiGroupe.getGroupe(id);
+        }
+
+        async function modalEditGroupe(id) {
+            modalOuvert = MODAL_GROUPE;
+            const groupe = await apiGroupe.getGroupe(id);
+            document.getElementById('titre-modal-groupe').innerText = 'Modifier un groupe';
+            document.getElementById('submit-create-groupe').hidden = true;
+            document.getElementById('submit-update-groupe').hidden = false;
+            document.getElementById('groupe-id').value = groupe.id;
+            modalGroupeOverlay.style.display = 'flex';
+
+            document.getElementById('groupe-libelle').value = groupe.libelle;
+            document.getElementById('groupe-description').value = groupe.description;
+            document.getElementById('groupe-nb_homme').value = groupe.nb_homme;
+            document.getElementById('groupe-nb_femme').value = groupe.nb_femme;
+            document.getElementById('groupe-producteur').value = groupe.producteur;
+            document.getElementById('groupe-lien_producteur').value = groupe.lien_producteur;
+            document.getElementById('groupe-lien_facebook').value = groupe.lien_facebook;
+            document.getElementById('groupe-lien_youtube').value = groupe.lien_youtube;
+            document.getElementById('groupe-lien_site').value = groupe.lien_site;
+            document.getElementById('groupe-lien_instagram').value = groupe.lien_instagram;
+            document.getElementById('groupe-lien_twitter').value = groupe.lien_twitter;
+            document.getElementById('groupe-departement').value = groupe.departement;
+        }
+
+        async function validateEditGroupe() {
+            const id = document.getElementById('groupe-id').value;
+            const data = {
+                libelle: document.getElementById('groupe-libelle').value,
+                description: document.getElementById('groupe-description').value,
+                nb_homme: document.getElementById('groupe-nb_homme').value,
+                nb_femme: document.getElementById('groupe-nb_femme').value,
+                producteur: document.getElementById('groupe-producteur').value,
+                lien_producteur: document.getElementById('groupe-lien_producteur').value,
+                lien_facebook: document.getElementById('groupe-lien_facebook').value,
+                lien_youtube: document.getElementById('groupe-lien_youtube').value,
+                lien_site: document.getElementById('groupe-lien_site').value,
+                lien_instagram: document.getElementById('groupe-lien_instagram').value,
+                lien_twitter: document.getElementById('groupe-lien_twitter').value,
+                departement: document.getElementById('groupe-departement').value,
+            };
+            await apiGroupe.updateGroupe(id, data);
+            displayGroupes();
+        }
+        async function modalCreateGroupe() {
+            modalOuvert = MODAL_GROUPE;
+            document.getElementById('titre-modal-groupe').innerText = 'Créer un groupe';
+            document.getElementById('submit-create-groupe').hidden = false;
+            document.getElementById('submit-update-groupe').hidden = true;
+
+            modalGroupeOverlay.style.display = 'flex';
+        }
+
+        async function validateCreationGroupe() {
+            const data = {
+                libelle: document.getElementById('groupe-libelle').value,
+                description: document.getElementById('groupe-description').value,
+                nb_homme: document.getElementById('groupe-nb_homme').value,
+                nb_femme: document.getElementById('groupe-nb_femme').value,
+                producteur: document.getElementById('groupe-producteur').value,
+                lien_producteur: document.getElementById('groupe-lien_producteur').value,
+                lien_facebook: document.getElementById('groupe-lien_facebook').value,
+                lien_youtube: document.getElementById('groupe-lien_youtube').value,
+                lien_site: document.getElementById('groupe-lien_site').value,
+                lien_instagram: document.getElementById('groupe-lien_instagram').value,
+                lien_twitter: document.getElementById('groupe-lien_twitter').value,
+                departement: document.getElementById('groupe-departement').value,
+            };
+            await apiGroupe.createGroupe(data);
+            displayGroupes();
+        }
+
+        function cleanModalGroupe() {
+            document.getElementById('groupe-libelle').value = '';
+            document.getElementById('groupe-description').value = '';
+            document.getElementById('groupe-nb_homme').value = 0;
+            document.getElementById('groupe-nb_femme').value = 0;
+            document.getElementById('groupe-producteur').value = '';
+            document.getElementById('groupe-lien_producteur').value = '';
+            document.getElementById('groupe-lien_facebook').value = '';
+            document.getElementById('groupe-lien_youtube').value = '';
+            document.getElementById('groupe-lien_site').value = '';
+            document.getElementById('groupe-lien_instagram').value = '';
+            document.getElementById('groupe-lien_twitter').value = '';
+            document.getElementById('groupe-departement').value = '';
+        }
+
+        async function populateGroupeDropdown() {
+            const groupes = await apiGroupe.getGroupes();
+            let dropdown;
+            if (modalOuvert === MODAL_CONCERT) {
+                dropdown = document.getElementById('concert-groupe');
+            }
+            else if (modalOuvert === MODAL_ALBUM) {
+                dropdown = document.getElementById('album-groupe');
+            }
+            dropdown.innerHTML = '<option value="">Sélectionnez un groupe</option>'; // Reset dropdown
+
+            groupes.results.forEach(groupe => {
+                const option = document.createElement('option');
+                option.value = groupe.id;
+                option.textContent = groupe.libelle;
+                dropdown.appendChild(option);
+            });
+        }
+
+        ///////////////////////////////////////////// ALBUM /////////////////////////////////////////////
+
+        class APIAlbum extends APICaller {
+            async getAlbums() {
+                const url = 'http://86.218.243.242:8000/api/albums/';
+                const response = await this.callAPI('GET', url, null, 'web_user');
+                return response;
+            }
+
+            async getAlbum(id) {
+                const url = `http://86.218.243.242:8000/api/albums/${id}/`;
+                const response = await this.callAPI('GET', url, null, 'web_user');
+                return response;
+            }
+
+            async createAlbum(data) {
+                const url = 'http://86.218.243.242:8000/api/albums/';
+                const response = await this.callAPI('POST', url, data, 'web_user');
+                return response;
+            }
+
+            async updateAlbum(id, data) {
+                const url = `http://86.218.243.242:8000/api/albums/${id}/`;
+                const response = await this.callAPI('PATCH', url, data, 'web_user');
+                return response;
+            }
+        }
+
+        const apiAlbum = new APIAlbum();
+
+        async function displayAlbums() {
+            const albums = await apiAlbum.getAlbums();
+            const tbody = document.getElementById('tableau-albums');
+            tbody.innerHTML = '';
+            albums.results.forEach(async album => {
+                const tr = document.createElement('tr');
+                let nomGroupe = "";
+                await getGroupe(album.groupe).then((groupe) => {
+                    nomGroupe = groupe.libelle;
+                });
+                let lieu;
+                try {
+                    lieu = formatAdresseParse(album.lieu);
+                } catch (e) {
+                    lieu = "";
+                }
+                tr.innerHTML = `
+            <td>${album.libelle}</td>
+            <td>${album.date_sortie}</td>
+            <td>${lieu}</td>
+            <td>${nomGroupe}</td>
+            <td>
+                <button onclick="modalEditAlbum(${album.id})">Modifier</button>
+                <button onclick="deleteAlbum(${album.id})">Supprimer</button>
+            </td>
+        `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function deleteAlbum(id) {
+            await apiAlbum.deleteAlbum(id);
+            displayAlbums();
+        }
+
+        async function modalEditAlbum(id) {
+            modalOuvert = MODAL_ALBUM;
+            const album = await apiAlbum.getAlbum(id);
+            document.getElementById('titre-modal-album').innerText = 'Modifier un album';
+            document.getElementById('submit-create-album').hidden = true;
+            document.getElementById('submit-update-album').hidden = false;
+            document.getElementById('album-id').value = album.id;
+
+            // Remplir le dropdown avec les groupes et définir la valeur sélectionnée
+            await populateGroupeDropdown(album.groupe);
+            let lieu;
+            try {
+                lieu = formatAdresseParse(album.lieu);
+            } catch (e) {
+                lieu = "";
+            }
+            document.getElementById('album-libelle').value = album.libelle;
+            document.getElementById('album-date_sortie').value = album.date_sortie;
+            document.getElementById('album-lieu').value = lieu;
+            modalAlbumOverlay.style.display = 'flex';
+        }
+
+        async function validateEditAlbum() {
+            const id = document.getElementById('album-id').value;
+            let lieu = {
+                nom: document.getElementById('album-lieu').value,
+                latitude: document.getElementById('album-lieu-latitude').value,
+                longitude: document.getElementById('album-lieu-longitude').value
+            }
+            let lieu_string = formatAdresseString(lieu);
+            const data = {
+                libelle: document.getElementById('album-libelle').value,
+                date_sortie: document.getElementById('album-date_sortie').value,
+                lieu: lieu_string,
+                groupe: document.getElementById('album-groupe').value,
+            };
+            await apiAlbum.updateAlbum(id, data);
+            displayAlbums();
+        }
+
+        async function modalCreateAlbum() {
+            modalOuvert = MODAL_ALBUM;
+            document.getElementById('titre-modal-album').innerText = 'Créer un album';
+            document.getElementById('submit-create-album').hidden = false;
+            document.getElementById('submit-update-album').hidden = true;
+            populateGroupeDropdown();
+            modalAlbumOverlay.style.display = 'flex';
+        }
+
+        async function validateCreationAlbum() {
+            let lieu = {
+                nom: document.getElementById('album-lieu').value,
+                latitude: document.getElementById('album-lieu-latitude').value,
+                longitude: document.getElementById('album-lieu-longitude').value
+            }
+            let lieu_string = formatAdresseString(lieu);
+            const data = {
+                libelle: document.getElementById('album-libelle').value,
+                date_sortie: document.getElementById('album-date_sortie').value,
+                lieu: lieu_string,
+                groupe: document.getElementById('album-groupe').value,
+            };
+            await apiAlbum.createAlbum(data);
+            displayAlbums();
+        }
+
+        ///////////////////////////////////////////// FESTIVAL /////////////////////////////////////////////
+
+        class APIFestival extends APICaller {
+            async getFestivals() {
+                const url = 'http://86.218.243.242:8000/api/festivals/';
+                const response = await this.callAPI('GET', url, null, 'web_user');
+                return response;
+            }
+
+            async getFestival(id) {
+                const url = `http://86.218.243.242:8000/api/festivals/${id}/`;
+                const response = await this.callAPI('GET', url, null, 'web_user');
+                return response;
+            }
+
+            async createFestival(data) {
+                const url = 'http://86.218.243.242:8000/api/festivals/';
+                const response = await this.callAPI('POST', url, data, 'web_user');
+                return response;
+            }
+
+            async updateFestival(id, data) {
+                const url = `http://86.218.243.242:8000/api/festivals/${id}/`;
+                const response = await this.callAPI('PATCH', url, data, 'web_user');
+                return response;
+            }
+
+            async deleteFestival(id) {
+                const url = `http://86.218.243.242:8000/api/festivals/${id}/`;
+                const response = await this.callAPI('DELETE', url, null, 'web_user');
+                return response;
+            }
+        }
+
+        const apiFestival = new APIFestival();
+
+        async function displayFestivals() {
+            const festivals = await apiFestival.getFestivals();
+            const tbody = document.getElementById('tableau-festivals');
+            tbody.innerHTML = '';
+            festivals.results.forEach(async festival => {
+                const tr = document.createElement('tr');
+                let concerts = [];
+                let lieu;
+                try {
+                    lieu = formatAdresseParse(festival.lieu);
+                } catch (e) {
+                    lieu = "";
+                }
+                await Promise.all(festival.concerts.map(async concertId => {
+                    const concert = await apiConcert.getConcert(concertId);
+                    concerts.push(concert.intitule);
+                }));
+                tr.innerHTML = `
+            <td>${festival.date_debut}</td>
+            <td>${lieu}</td>
+            <td>${festival.description}</td>
+            <td>${concerts.join(', ')}</td>
+            <td>
+                <button onclick="modalEditFestival(${festival.id})">Modifier</button>
+                <button onclick="deleteFestival(${festival.id})">Supprimer</button>
+            </td>
+        `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function deleteFestival(id) {
+            await apiFestival.deleteFestival(id);
+            displayFestivals();
+        }
+
+        async function modalCreateFestival() {
+            modalOuvert = MODAL_FESTIVAL;
+            document.getElementById('titre-modal-festival').innerText = 'Créer un festival';
+            document.getElementById('submit-create-festival').hidden = false;
+            document.getElementById('submit-update-festival').hidden = true;
+            cleanModalFestival();
+            await populateConcertDropdown('festival-concerts');
+            openFestivalModal();
+        }
+
+        async function modalEditFestival(id) {
+            modalOuvert = MODAL_FESTIVAL;
+            const festival = await apiFestival.getFestival(id);
+            document.getElementById('titre-modal-festival').innerText = 'Modifier un festival';
+            document.getElementById('submit-create-festival').hidden = true;
+            document.getElementById('submit-update-festival').hidden = false;
+            document.getElementById('festival-id').value = festival.id;
+            let lieu;
+            try {
+                lieu = formatAdresseParse(festival.lieu);
+            } catch (e) {
+                lieu = "";
+            }
+
+            document.getElementById('festival-date_debut').value = festival.date_debut;
+            document.getElementById('festival-lieu').value = lieu;
+            document.getElementById('festival-description').value = festival.description;
+            await populateConcertDropdown('festival-concerts', festival.concerts);
+            openFestivalModal();
+        }
+
+        async function validateCreationFestival() {
+            let lieu = {
+                nom: document.getElementById('festival-lieu').value,
+                latitude: document.getElementById('festival-lieu-latitude').value,
+                longitude: document.getElementById('festival-lieu-longitude').value
+            }
+            console.log(lieu);
+            let lieu_string = formatAdresseString(lieu);
+            const data = {
+                date_debut: document.getElementById('festival-date_debut').value,
+                lieu: lieu_string,
+                description: document.getElementById('festival-description').value,
+                concerts: Array.from(document.getElementById('festival-concerts').selectedOptions).map(option => option.value),
+            };
+            await apiFestival.createFestival(data);
+            displayFestivals();
+            closeFestivalModal();
+        }
+
+        async function validateEditFestival() {
+            const id = document.getElementById('festival-id').value;
+            let lieu = {
+                nom: document.getElementById('festival-lieu').value,
+                latitude: document.getElementById('festival-lieu-latitude').value,
+                longitude: document.getElementById('festival-lieu-longitude').value
+            }
+            let lieu_string = formatAdresseString(lieu);
+            const data = {
+                date_debut: document.getElementById('festival-date_debut').value,
+                lieu: lieu_string,
+                description: document.getElementById('festival-description').value,
+                concerts: Array.from(document.getElementById('festival-concerts').selectedOptions).map(option => option.value),
+            };
+            await apiFestival.updateFestival(id, data);
+            displayFestivals();
+            closeFestivalModal();
+        }
+
+        function cleanModalFestival() {
+            document.getElementById('festival-date_debut').value = '';
+            document.getElementById('festival-lieu').value = '';
+            document.getElementById('festival-description').value = '';
+            document.getElementById('festival-concerts').innerHTML = '';
+        }
+
+        async function populateConcertDropdown(dropdownId, selectedConcertIds = []) {
+            const concerts = await apiConcert.getConcerts();
+            const dropdown = document.getElementById(dropdownId);
+            dropdown.innerHTML = ''; // Reset dropdown
+
+            concerts.results.forEach(concert => {
+                const option = document.createElement('option');
+                option.value = concert.id;
+                option.textContent = concert.intitule;
+                if (selectedConcertIds.includes(concert.id)) {
+                    option.selected = true;
+                }
+                dropdown.appendChild(option);
+            });
+        }
+
+        function openFestivalModal() {
+            document.getElementById('modal-festival').style.display = 'flex';
+        }
+
+        function closeFestivalModal() {
+            modalOuvert = null;
+            document.getElementById('modal-festival').style.display = 'none';
+        }
+
+        // Fermer la modale en cliquant en dehors du contenu
+        document.getElementById('modal-festival').addEventListener('click', (event) => {
+            if (event.target === document.getElementById('modal-festival')) {
+                closeFestivalModal();
+            }
+        });
+
+        // Appeler la fonction pour afficher les festivals lors du chargement de la page
+        document.addEventListener('DOMContentLoaded', () => {
+            displayFestivals();
+        });
+
+        ///////////////////////////////////////////// INFO /////////////////////////////////////////////
+
+        class APIInfo extends APICaller {
+            async getInfos() {
+                const url = 'http://86.218.243.242:8000/api/infos/';
+                const response = await this.callAPI('GET', url, null, 'web_user');
+                return response;
+            }
+
+            async getInfo(id) {
+                const url = `http://86.218.243.242:8000/api/infos/${id}/`;
+                const response = await this.callAPI('GET', url, null, 'web_user');
+                return response;
+            }
+
+            async createInfo(data) {
+                const url = 'http://86.218.243.242:8000/api/infos/';
+                const response = await this.callAPI('POST', url, data, 'web_user');
+                return response;
+            }
+
+            async deleteInfo(id) {
+                const url = `http://86.218.243.242:8000/api/infos/${id}/`;
+                const response = await this.callAPI('DELETE', url, null, 'web_user');
+                return response;
+            }
+
+            async updateInfo(id, data) {
+                const url = `http://86.218.243.242:8000/api/infos/${id}/`;
+                const response = await this.callAPI('PATCH', url, data, 'web_user');
+                return response;
+            }
+        }
+
+        const apiInfo = new APIInfo();
+
+        async function displayInfos() {
+            const infos = await apiInfo.getInfos();
+            const tbody = document.getElementById('tableau-infos');
+            tbody.innerHTML = '';
+            infos.results.forEach(info => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+            <td>${info.titre}</td>
+            <td>${info.description}</td>
+            <td>${info.nom_image}</td>
+            <td>${info.type_info}</td>
+            <td>
+                <button onclick="modalEditInfo(${info.id})">Modifier</button>
+                <button onclick="deleteInfo(${info.id})">Supprimer</button>
+            </td>
+        `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        async function deleteInfo(id) {
+            await apiInfo.deleteInfo(id);
+            displayInfos();
+        }
+
+        async function modalCreateInfo() {
+            document.getElementById('titre-modal-info').innerText = 'Créer une information';
+            document.getElementById('submit-create-info').hidden = false;
+            document.getElementById('submit-update-info').hidden = true;
+            cleanModalInfo();
+            openInfoModal();
+        }
+
+        async function modalEditInfo(id) {
+            const info = await apiInfo.getInfo(id);
+            document.getElementById('titre-modal-info').innerText = 'Modifier une information';
+            document.getElementById('submit-create-info').hidden = true;
+            document.getElementById('submit-update-info').hidden = false;
+            document.getElementById('info-id').value = info.id;
+
+            document.getElementById('info-titre').value = info.titre;
+            document.getElementById('info-description').value = info.description;
+            document.getElementById('info-nom_image').value = info.nom_image;
+            document.getElementById('info-type_info').value = info.type_info;
+            openInfoModal();
+        }
+
+        async function validateCreationInfo() {
+            const data = {
+                titre: document.getElementById('info-titre').value,
+                description: document.getElementById('info-description').value,
+                nom_image: document.getElementById('info-nom_image').value,
+                type_info: document.getElementById('info-type_info').value,
+            };
+            await apiInfo.createInfo(data);
+            displayInfos();
+            closeInfoModal();
+        }
+
+        async function validateEditInfo() {
+            const id = document.getElementById('info-id').value;
+            const data = {
+                titre: document.getElementById('info-titre').value,
+                description: document.getElementById('info-description').value,
+                nom_image: document.getElementById('info-nom_image').value,
+                type_info: document.getElementById('info-type_info').value,
+            };
+            await apiInfo.updateInfo(id, data);
+            displayInfos();
+            closeInfoModal();
+        }
+
+        function cleanModalInfo() {
+            document.getElementById('info-titre').value = '';
+            document.getElementById('info-description').value = '';
+            document.getElementById('info-nom_image').value = '';
+            document.getElementById('info-type_info').value = '';
+        }
+
+        function openInfoModal() {
+            document.getElementById('modal-info').style.display = 'flex';
+        }
+
+        function closeInfoModal() {
+            document.getElementById('modal-info').style.display = 'none';
+        }
+
+        ///////////////////////////////////////////// API ADRESSE /////////////////////////////////////////////
+        const modalAddressOverlay = document.getElementById('modal-address');
+
+        function openAddressModal(type) {
+            modalAddressOverlay.style.display = 'flex';
+        }
+
+        function closeAddressModal() {
+            modalAddressOverlay.style.display = 'none';
+        }
+
+        document.getElementById('searchBtn').addEventListener('click', () => searchAddress());
+        document.getElementById('addressInput').addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') searchAddress();
+        });
+
+        async function searchAddress() {
+            const query = document.getElementById('addressInput').value.trim();
+            if (!query) return;
+
+            const apiUrl = `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=5`;
+
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                displayResults(data.features);
+            } catch (error) {
+                console.error('Erreur lors de la recherche :', error);
+            }
+        }
+
+        function displayResults(features) {
+            const resultList = document.getElementById('resultList');
+            resultList.innerHTML = '';
+
+            if (features.length === 0) {
+                resultList.innerHTML = '<li class="list-group-item">Aucun résultat trouvé</li>';
+                return;
+            }
+
+            features.forEach(feature => {
+                const { label } = feature.properties;
+                const [longitude, latitude] = feature.geometry.coordinates;
+
+                const listItem = document.createElement('li');
+                listItem.className = 'list-group-item list-group-item-action';
+                listItem.textContent = label;
+
+                if (modalOuvert === MODAL_CONCERT) {
+                    listItem.addEventListener('click', () => {
+                        document.getElementById('concert-lieu').value = label;
+                        document.getElementById('concert-lieu-longitude').value = longitude;
+                        document.getElementById('concert-lieu-latitude').value = latitude;
+                        modalAddressOverlay.style.display = 'none';
+                    });
+                } else if (modalOuvert === MODAL_ALBUM) {
+                    listItem.addEventListener('click', () => {
+                        document.getElementById('album-lieu').value = label;
+                        document.getElementById('album-lieu-longitude').value = longitude;
+                        document.getElementById('album-lieu-latitude').value = latitude;
+                        modalAddressOverlay.style.display = 'none';
+                    });
+                } else if (modalOuvert === MODAL_FESTIVAL) {
+                    listItem.addEventListener('click', () => {
+                        document.getElementById('festival-lieu').value = label;
+                        document.getElementById('festival-lieu-longitude').value = longitude;
+                        document.getElementById('festival-lieu-latitude').value = latitude;
+                        modalAddressOverlay.style.display = 'none';
+                    });
+                }
+
+                resultList.appendChild(listItem);
+            });
+        }
+
+        // ferme le modal concert en cliquant sur le bouton
+        document.getElementById('close-concert').addEventListener('click', () => {
+            modalConcertOverlay.style.display = 'none';
+        });
+        // Fermer la modal concert en cliquant en dehors du contenu
+        modalConcertOverlay.addEventListener('click', (event) => {
+            if (event.target === modalConcertOverlay) {
+                modalConcertOverlay.style.display = 'none';
+                modalOuvert = null;
+            }
+        });
+
+        // ferme le modal groupe en cliquant sur le bouton
+        document.getElementById('close-groupe').addEventListener('click', () => {
+            modalGroupeOverlay.style.display = 'none';
+        });
+        // Fermer la modal groupe en cliquant en dehors du contenu
+        modalGroupeOverlay.addEventListener('click', (event) => {
+            if (event.target === modalGroupeOverlay) {
+                modalGroupeOverlay.style.display = 'none';
+                modalOuvert = null;
+            }
+        });
+
+        // ferme le modal album en cliquant sur le bouton
+        document.getElementById('close-album').addEventListener('click', () => {
+            modalAlbumOverlay.style.display = 'none';
+        });
+        // Fermer la modal album en cliquant en dehors du contenu
+        modalAlbumOverlay.addEventListener('click', (event) => {
+            if (event.target === modalAlbumOverlay) {
+                modalAlbumOverlay.style.display = 'none';
+                modalOuvert = null;
+            }
+        });
+
+        // ferme le modal info en cliquant sur le bouton
+        document.getElementById('close-info').addEventListener('click', () => {
+            modalInfoOverlay.style.display = 'none';
+        });
+        // Fermer la modal info en cliquant en dehors du contenu
+        modalInfoOverlay.addEventListener('click', (event) => {
+            if (event.target === modalInfoOverlay) {
+                modalInfoOverlay.style.display = 'none';
+            }
+        });
+
+
+
+        // ferme le modal adresse en cliquant sur le bouton
+        document.getElementById('close-recherche-addresse').addEventListener('click', () => {
+            modalAddressOverlay.style.display = 'none';
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            displayGroupes();
+            displayConcerts();
+            displayAlbums();
+            displayInfos();
+        });
+
+
+
+        ///////////////////////////////////////////// UTILS /////////////////////////////////////////////
+
+        // l'api me renvoie une dresse sous cette forme 
+        // {
+        //  "nom" : "nom de la rue",
+        //  "latitude" : "latitude",
+        //  "longitude" : "longitude"
+        //}
+        // en string
+        function formatAdresseParse(adresse) {
+            let adresse_obj = JSON.parse(adresse);
+            return adresse_obj.nom
+        }
+
+        // je doit envoyer une adresse sous cette forme 
+        // {
+        //  "nom" : "nom de la rue",
+        //  "latitude" : "latitude",
+        //  "longitude" : "longitude"
+        //}
+        // en string
+        function formatAdresseString(adresse) {
+            return JSON.stringify(adresse);
+        }
+    </script>
+</body>
+
+</html>
